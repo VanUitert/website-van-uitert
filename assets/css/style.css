@@ -189,6 +189,13 @@ li.has-dropdown:focus-within .dropdown{
   background: var(--white); align-items: center; justify-content: center;
 }
 
+/* De volledige balk (logo + menu + telefoon + knop) heeft ~1200px nodig.
+   Daaronder eerst het telefoonnummer, dan het woordmerk laten vallen,
+   zodat er op laptopbreedtes niets buiten beeld schuift. */
+.nav-link{ white-space: nowrap; }
+@media (max-width: 1240px){ .header-phone{ display: none; } }
+@media (max-width: 1100px){ .logo-word{ display: none; } }
+
 @media (max-width: 980px){
   .main-nav{
     position: fixed; top: var(--header-h); right: 0; bottom: 0; left: 0;
@@ -243,8 +250,8 @@ li.has-dropdown:focus-within .dropdown{
   content: ""; position: absolute; inset: 0;
   background: linear-gradient(100deg, rgba(15,33,56,.96) 20%, rgba(15,33,56,.55) 65%, rgba(15,33,56,.25) 100%);
 }
-.hero-inner{ position: relative; z-index: 2; padding: 92px 0 110px; }
-.hero-inner.is-compact{ padding: 56px 0 64px; }
+.hero-inner{ position: relative; z-index: 2; padding-block: 92px 110px; }
+.hero-inner.is-compact{ padding-block: 56px 64px; }
 .hero .eyebrow{ color: #ff9f9d; }
 .hero .eyebrow::before{ background: #ff9f9d; }
 .hero h1{ font-size: clamp(34px, 5vw, 58px); max-width: 20ch; margin-top: 14px; color: var(--white); }
