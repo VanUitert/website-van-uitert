@@ -50,6 +50,9 @@ nav a{display:block;padding:10px 14px;font-weight:600;font-size:15px;border-radi
 nav a:hover{background:var(--paper)}
 .hdr-cta{display:flex;align-items:center;gap:16px}
 .hdr-cta .tel{font-family:var(--mono);font-size:14px;font-weight:700}
+.menu-btn{display:none;border:1.5px solid var(--ink);background:#fff;border-radius:4px;padding:9px 12px;font:inherit;font-weight:700;font-size:14px}
+@media(max-width:1180px){.hdr-cta .tel{display:none}}
+@media(max-width:900px){nav{display:none}.menu-btn{display:inline-block}.hdr-cta .btn{padding:12px 16px;font-size:14px}.logo{font-size:16px}header.site .wrap{height:64px}}
 
 /* ---------- de rode draad ---------- */
 main{position:relative}
@@ -240,7 +243,7 @@ footer .bottom{margin-top:40px;padding-top:20px;border-top:1px solid rgba(255,25
       <li><a href="#line">Solutions</a></li><li><a href="#doors">Industries</a></li><li><a href="#cases">Projects</a></li>
       <li><a href="#line">Equipment</a></li><li><a href="#">Service</a></li><li><a href="#people">About</a></li>
     </ul></nav>
-    <div class="hdr-cta"><span class="tel">+31 162 313 136</span><a class="btn btn-red" href="#check">Start your project</a></div>
+    <div class="hdr-cta"><span class="tel">+31 162 313 136</span><a class="btn btn-red" href="#check">Start your project</a><button class="menu-btn" type="button" aria-label="Menu">Menu</button></div>
   </div>
 </header>
 
