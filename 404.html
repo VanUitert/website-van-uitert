@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Pagina niet gevonden | Van Uitert</title>
+<!-- Bewust zelfstandig (geen externe css/afbeeldingen): deze pagina kan op elk
+     willekeurig pad getoond worden, waar relatieve paden niet kloppen. -->
+<style>
+  :root{ --red:#e31d1a; --navy-950:#08182b; --navy-800:#123a63; }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px;
+    font-family:"Open Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; color:#fff;
+    background:
+      linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px) 0 0/44px 44px,
+      linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px) 0 0/44px 44px,
+      linear-gradient(150deg, var(--navy-950) 0%, var(--navy-800) 100%);
+  }
+  main{ max-width:560px; text-align:center; }
+  .code{ font-family:"JetBrains Mono",Consolas,monospace; font-size:88px; font-weight:700; color:var(--red); line-height:1; }
+  h1{ font-size:28px; margin:18px 0 10px; }
+  p{ color:rgba(255,255,255,.75); line-height:1.6; margin:0 0 28px; }
+  .actions{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+  a{ display:inline-block; padding:14px 26px; border-radius:999px; font-weight:700; text-decoration:none; font-size:15px; }
+  .primary{ background:var(--red); color:#fff; }
+  .outline{ border:2px solid rgba(255,255,255,.5); color:#fff; }
+</style>
+</head>
+<body>
+<main>
+  <div class="code">404</div>
+  <h1>Deze pagina bestaat niet (meer)</h1>
+  <p>De pagina die u zoekt is verplaatst of verwijderd. Ga terug naar de homepage of neem direct contact met ons op.</p>
+  <div class="actions">
+    <a class="primary" id="home" href="/">Naar de homepage</a>
+    <a class="outline" href="tel:+31162313136">Bel +31 162 313 136</a>
+  </div>
+</main>
+<script>
+  // Op een GitHub Pages-projectsite staat de site onder /<repo-naam>/;
+  // op een eigen domein gewoon onder /.
+  if (location.hostname.endsWith("github.io")) {
+    var repo = location.pathname.split("/")[1];
+    if (repo) document.getElementById("home").href = "/" + repo + "/";
+  }
+</script>
+</body>
+</html>

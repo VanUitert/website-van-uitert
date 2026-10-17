@@ -1,0 +1,7 @@
+# Systeembestanden van Windows/macOS
+Thumbs.db
+desktop.ini
+.DS_Store
+# Editor-instellingen
+.vscode/
+.idea/

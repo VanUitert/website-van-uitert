@@ -1,0 +1,7 @@
+# CONCEPTFASE: zoekmachines buiten de deur houden, zodat deze testversie
+# niet concurreert met de huidige uitert.nl in Google.
+# Bij livegang vervangen door:
+#   User-agent: *
+#   Allow: /
+User-agent: *
+Disallow: /
