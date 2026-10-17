@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Van Uitert — One line. One partner.</title>
+<link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+/* ---------------------------------------------------------------
+   Concept "De rode draad" — homepage
+   Kleuren uit de Brand Board 2024; rood is de enige kleur.
+   --------------------------------------------------------------- */
+:root{
+  --ink:#231f20; --grey:#616265; --grey-2:#9a9a9c; --line:#e3e1dc; --paper:#f6f5f2; --white:#fff;
+  --red:#e31d1a; --red-dark:#bd1d1b;
+  --font:"Archivo",-apple-system,"Segoe UI",sans-serif; --mono:"JetBrains Mono",Consolas,monospace;
+  --w:1240px; --thread-x:56px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--font);color:var(--ink);background:var(--white);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,h4,p{margin:0}
+h1,h2,h3{font-weight:800;letter-spacing:-.02em;line-height:1.05}
+.wrap{max-width:var(--w);margin-inline:auto;padding-inline:24px}
+.mono{font-family:var(--mono)}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--red);font-weight:700}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:16px 26px;border-radius:4px;font-weight:700;font-size:15px;border:2px solid transparent;transition:.15s}
+.btn-red{background:var(--red);color:#fff}.btn-red:hover{background:var(--red-dark)}
+.btn-ink{background:var(--ink);color:#fff}.btn-ink:hover{background:#000}
+.btn-ghost{border-color:rgba(255,255,255,.45);color:#fff}.btn-ghost:hover{border-color:#fff}
+.btn-line{border-color:var(--ink);color:var(--ink)}.btn-line:hover{background:var(--ink);color:#fff}
+.arrow::after{content:"→";font-weight:700}
+
+/* ---------- topbar + header ---------- */
+.topbar{background:var(--ink);color:#fff;font-size:13px}
+.topbar .wrap{display:flex;justify-content:space-between;align-items:center;height:36px}
+.topbar a{opacity:.8}.topbar a:hover{opacity:1}
+.topbar .lang b{color:#fff}.topbar .lang span{opacity:.5;margin:0 6px}
+header.site{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header.site .wrap{display:flex;align-items:center;justify-content:space-between;height:76px;gap:24px}
+.logo{display:flex;align-items:center;gap:12px;font-weight:800;font-size:18px;letter-spacing:-.01em}
+.logo img{height:34px}
+nav ul{display:flex;gap:4px;list-style:none;margin:0;padding:0}
+nav a{display:block;padding:10px 14px;font-weight:600;font-size:15px;border-radius:4px}
+nav a:hover{background:var(--paper)}
+.hdr-cta{display:flex;align-items:center;gap:16px}
+.hdr-cta .tel{font-family:var(--mono);font-size:14px;font-weight:700}
+
+/* ---------- de rode draad ---------- */
+main{position:relative}
+.thread{position:absolute;left:0;top:0;bottom:0;width:100%;pointer-events:none;z-index:3}
+.thread .rail{position:absolute;top:0;height:0;left:calc(50% - var(--w)/2 + 24px + var(--thread-x));width:3px;background:var(--red);transition:height .12s linear}
+.thread .rail::after{content:"";position:absolute;left:50%;bottom:-6px;width:13px;height:13px;border-radius:50%;background:var(--red);transform:translateX(-50%);box-shadow:0 0 0 6px rgba(227,29,26,.18)}
+@media(max-width:1300px){.thread .rail{left:calc(24px + var(--thread-x))}}
+@media(max-width:900px){.thread{display:none}}
+section{position:relative;z-index:2}
+.station > .wrap{position:relative}
+.station > .wrap::before{content:"";position:absolute;left:calc(24px + var(--thread-x) - 7px);top:14px;width:17px;height:17px;border-radius:50%;background:#fff;border:3px solid var(--line);transition:.3s;z-index:4}
+.station.lit > .wrap::before{border-color:var(--red);background:var(--red);box-shadow:0 0 0 6px rgba(227,29,26,.15)}
+@media(max-width:900px){.station > .wrap::before{display:none}}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+.pad{padding-left:calc(var(--thread-x) + 40px)}
+@media(max-width:900px){.pad{padding-left:24px}}
+
+/* ---------- hero ---------- */
+.hero{background:var(--ink);color:#fff;position:relative;overflow:hidden;min-height:640px;display:flex;align-items:flex-end}
+.hero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(35,31,32,.95) 0%,rgba(35,31,32,.55) 55%,rgba(35,31,32,.15) 100%)}
+.hero .wrap{position:relative;z-index:2;padding-block:72px 64px}
+.hero h1{font-size:clamp(44px,7vw,96px);max-width:11ch}
+.hero h1 em{font-style:normal;color:var(--red)}
+.hero p{font-size:clamp(17px,2vw,21px);max-width:52ch;color:rgba(255,255,255,.85);margin-top:22px}
+.hero .cta{display:flex;gap:14px;flex-wrap:wrap;margin-top:34px}
+.hero .since{position:absolute;right:24px;bottom:24px;font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.7)}
+.hero-line{position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--red);z-index:3}
+
+/* ---------- twee deuren ---------- */
+.doors{background:var(--paper);padding:56px 0}
+.doors .grid{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+@media(max-width:900px){.doors .grid{grid-template-columns:1fr}}
+.door h3{font-size:22px;margin-bottom:16px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:11px 16px;border:1.5px solid var(--ink);border-radius:999px;font-weight:600;font-size:14px;background:#fff;transition:.15s}
+.chip:hover{background:var(--ink);color:#fff}
+.chip.red{border-color:var(--red);color:var(--red)}.chip.red:hover{background:var(--red);color:#fff}
+.doors .big{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:600px){.doors .big{grid-template-columns:1fr}}
+.doors .big a{display:block;background:#fff;border:1.5px solid var(--line);padding:20px;border-radius:4px;transition:.15s}
+.doors .big a:hover{border-color:var(--red);transform:translateY(-2px)}
+.doors .big b{display:block;font-size:17px;margin-bottom:4px}
+.doors .big span{font-size:14px;color:var(--grey)}
+
+/* ---------- de lijn ---------- */
+.walk{padding:96px 0 88px}
+.walk .head{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap;margin-bottom:48px}
+.walk h2{font-size:clamp(32px,4.4vw,54px);max-width:16ch}
+.walk .head p{max-width:44ch;color:var(--grey);font-size:16px}
+.line{position:relative;display:grid;grid-template-columns:repeat(7,1fr);gap:14px;padding-top:30px}
+.line::before{content:"";position:absolute;left:0;width:0;top:14px;height:3px;background:var(--red);transition:width 1.6s cubic-bezier(.2,.7,.2,1)}
+.line.drawn::before{width:100%}
+.st.active{border-color:var(--red);box-shadow:0 0 0 3px rgba(227,29,26,.15)}
+.detail{display:none;margin-top:22px;border:1.5px solid var(--red);border-radius:4px;padding:26px 28px;background:#fff;grid-template-columns:1.3fr 1fr;gap:32px;align-items:center}
+.detail.open{display:grid}
+@media(max-width:800px){.detail.open{grid-template-columns:1fr}}
+.detail h3{font-size:24px;margin-bottom:10px}
+.detail p{color:var(--grey);font-size:15.5px}
+.detail .who{display:flex;gap:14px;align-items:center;margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
+.detail .who img,.detail .who .ph{width:52px;height:52px;border-radius:50%;object-fit:cover;background:var(--line);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;color:var(--grey)}
+.detail .who b{display:block;font-size:14.5px}.detail .who span{font-size:13px;color:var(--grey)}
+.detail ul{margin:0;padding:0;list-style:none;display:grid;gap:8px;font-size:14.5px}
+.detail li::before{content:"—";color:var(--red);margin-right:10px;font-weight:700}
+.detail .close{position:absolute;right:14px;top:10px;background:none;border:0;font-size:22px;cursor:pointer;color:var(--grey)}
+.detail{position:relative}
+@media(max-width:1000px){.line{grid-template-columns:repeat(4,1fr)}.line::before{display:none}}
+@media(max-width:600px){.line{grid-template-columns:repeat(2,1fr)}}
+.st{position:relative;border:1.5px solid var(--line);border-radius:4px;overflow:hidden;background:#fff;transition:.15s}
+.st:hover{border-color:var(--red);transform:translateY(-3px)}
+.st::before{content:"";position:absolute;left:50%;top:-23px;width:15px;height:15px;border-radius:50%;background:#fff;border:3px solid var(--red);transform:translateX(-50%)}
+@media(max-width:1000px){.st::before{display:none}}
+.st .ph{aspect-ratio:1/1;background:var(--paper);overflow:hidden}
+.st .ph img{width:100%;height:100%;object-fit:cover;transition:.35s}
+.st:hover .ph img{transform:scale(1.05)}
+.st .tx{padding:14px 14px 16px}
+.st .n{font-family:var(--mono);font-size:11px;color:var(--red);font-weight:700;letter-spacing:.1em}
+.st b{display:block;font-size:14.5px;margin-top:4px;line-height:1.25}
+.st span{display:block;font-size:12.5px;color:var(--grey);margin-top:6px}
+.st.other{border-style:dashed}
+.st.other::before{background:var(--ink);border-color:var(--ink)}
+.st.other .ph{display:flex;align-items:center;justify-content:center;background:var(--paper);color:var(--grey-2)}
+.st.other .n{color:var(--grey)}
+.walk .legend{display:flex;gap:28px;margin-top:28px;font-size:13.5px;color:var(--grey);flex-wrap:wrap}
+.walk .legend i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:8px;vertical-align:-1px}
+.walk .legend .r i{background:var(--red)}.walk .legend .k i{background:var(--ink)}
+
+/* ---------- bewijs ---------- */
+.proof{background:var(--ink);color:#fff;padding:64px 0}
+.proof .nums{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+@media(max-width:800px){.proof .nums{grid-template-columns:repeat(2,1fr)}}
+.proof .num b{display:block;font-family:var(--mono);font-size:clamp(34px,4.5vw,56px);font-weight:700;color:var(--red);letter-spacing:-.03em;line-height:1}
+.proof .num b span{font-family:inherit;font-size:inherit;color:inherit}
+.proof .num > span{font-size:14px;color:rgba(255,255,255,.7)}
+.proof .logos{display:flex;flex-wrap:wrap;gap:40px;align-items:center;margin-top:48px;padding-top:40px;border-top:1px solid rgba(255,255,255,.14)}
+.proof .logos img{height:28px;filter:brightness(0) invert(1);opacity:.7}
+
+/* ---------- cases ---------- */
+.cases{padding:96px 0}
+.cases .head{margin-bottom:40px;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:20px}
+.cases h2{font-size:clamp(30px,4vw,48px)}
+.cgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+@media(max-width:900px){.cgrid{grid-template-columns:1fr}}
+.case{border:1.5px solid var(--line);border-radius:4px;overflow:hidden;background:#fff;display:flex;flex-direction:column;transition:.15s}
+.case:hover{border-color:var(--red);transform:translateY(-3px)}
+.case .ph{aspect-ratio:4/3;overflow:hidden}
+.case .ph img{width:100%;height:100%;object-fit:cover}
+.case .tx{padding:22px;display:flex;flex-direction:column;gap:10px;flex:1}
+.case .who{font-family:var(--mono);font-size:12px;color:var(--grey);letter-spacing:.06em}
+.case h3{font-size:20px;line-height:1.2}
+.case .scope{display:flex;gap:3px;margin-top:6px}
+.case .scope i{flex:1;height:5px;background:var(--line);border-radius:2px}
+.case .scope i.on{background:var(--red)}
+.case .scope-l{font-size:12px;color:var(--grey)}
+.case .q{font-size:14.5px;color:var(--grey);border-left:3px solid var(--red);padding-left:12px;margin-top:6px}
+.case .q small{display:block;color:var(--grey-2);margin-top:4px;font-size:12px}
+
+/* ---------- mensen ---------- */
+.people{background:var(--paper);padding:88px 0}
+.people .grid{display:grid;grid-template-columns:1.1fr 1fr;gap:48px;align-items:center}
+@media(max-width:900px){.people .grid{grid-template-columns:1fr}}
+.people h2{font-size:clamp(30px,4vw,48px);margin-top:12px}
+.people p.lead{color:var(--grey);margin-top:18px;max-width:46ch}
+.cards{display:grid;gap:16px}
+.pcard{background:#fff;border:1.5px solid var(--line);border-radius:4px;padding:18px;display:grid;grid-template-columns:84px 1fr auto;gap:18px;align-items:center}
+@media(max-width:560px){.pcard{grid-template-columns:84px 1fr}.pcard .btn{grid-column:1/-1}}
+.pcard img,.pcard .ph{width:84px;height:84px;border-radius:50%;object-fit:cover;background:var(--line)}
+.pcard .ph{display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:700;color:var(--grey)}
+.pcard b{display:block;font-size:17px}.pcard span{display:block;font-size:13.5px;color:var(--grey)}
+.pcard q{display:block;font-size:14px;margin-top:6px;color:var(--ink)}
+.people .tel{margin-top:14px;font-size:14px;color:var(--grey)}
+.people .tel b{font-family:var(--mono);color:var(--ink)}
+
+/* ---------- lijncheck ---------- */
+.check{padding:0 0 96px}
+.check .box{background:var(--ink);color:#fff;border-radius:6px;padding:56px;display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:center;position:relative;overflow:hidden}
+.check .box::before{content:"";position:absolute;left:-40px;top:50%;width:140%;height:3px;background:var(--red);transform:rotate(-8deg);opacity:.55}
+@media(max-width:900px){.check .box{grid-template-columns:1fr;padding:36px}}
+.check h2{font-size:clamp(28px,3.6vw,44px);position:relative}
+.check p{color:rgba(255,255,255,.78);margin-top:16px;max-width:46ch;position:relative}
+.check ol{margin:20px 0 0;padding-left:20px;color:rgba(255,255,255,.85);font-size:15px;position:relative}
+.check form{background:#fff;color:var(--ink);border-radius:4px;padding:24px;position:relative;display:grid;gap:12px}
+.check label{font-size:12.5px;font-weight:700}
+.check input,.check select,.check textarea{width:100%;padding:12px;border:1.5px solid var(--line);border-radius:4px;font:inherit;font-size:15px}
+.check .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.check small{color:var(--grey);font-size:12px}
+
+/* ---------- wereld + werken bij ---------- */
+.duo{padding:0 0 96px}
+.duo .grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:900px){.duo .grid{grid-template-columns:1fr}}
+.tile{border:1.5px solid var(--line);border-radius:4px;padding:36px;position:relative;overflow:hidden;min-height:300px;display:flex;flex-direction:column;justify-content:space-between;gap:24px}
+.tile h3{font-size:26px;margin-top:10px}
+.tile p{color:var(--grey);margin-top:10px;max-width:40ch}
+.tile .countries{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.tile .countries span{font-family:var(--mono);font-size:12px;padding:5px 9px;background:var(--paper);border-radius:3px}
+.tile.dark{background:var(--ink);color:#fff;border-color:var(--ink)}
+.tile.dark p{color:rgba(255,255,255,.75)}
+.tile .month{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.tile .month div{aspect-ratio:1;background:#3a3536;border-radius:3px;display:flex;align-items:flex-end;padding:10px;font-family:var(--mono);font-size:12px;color:#fff;background-size:cover;background-position:center}
+.tile .month div::before{content:"";position:absolute}
+
+/* ---------- footer ---------- */
+footer{background:var(--ink);color:rgba(255,255,255,.75);padding:56px 0 28px;font-size:14px}
+footer .grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px}
+@media(max-width:800px){footer .grid{grid-template-columns:1fr 1fr}}
+footer h4{color:#fff;font-size:13px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px}
+footer ul{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+footer .logo img{filter:brightness(0) invert(1)}
+footer .bottom{margin-top:40px;padding-top:20px;border-top:1px solid rgba(255,255,255,.14);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:12.5px;color:rgba(255,255,255,.5)}
+.concept-note{position:fixed;left:16px;bottom:16px;z-index:60;background:var(--red);color:#fff;font-family:var(--mono);font-size:11px;letter-spacing:.1em;padding:8px 12px;border-radius:3px}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <div><a href="#careers">Careers — Werken bij Van Uitert</a></div>
+    <div class="lang"><b>EN</b><span>|</span><a href="#">NL</a></div>
+  </div>
+</div>
+
+<header class="site">
+  <div class="wrap">
+    <a class="logo" href="#"><img src="../assets/img/logo.svg" alt="Van Uitert">Van Uitert</a>
+    <nav><ul>
+      <li><a href="#line">Solutions</a></li><li><a href="#doors">Industries</a></li><li><a href="#cases">Projects</a></li>
+      <li><a href="#line">Equipment</a></li><li><a href="#">Service</a></li><li><a href="#people">About</a></li>
+    </ul></nav>
+    <div class="hdr-cta"><span class="tel">+31 162 313 136</span><a class="btn btn-red" href="#check">Start your project</a></div>
+  </div>
+</header>
+
+<main>
+<div class="thread"><div class="rail"></div></div>
+
+<!-- HERO -->
+<section class="hero">
+  <img class="bg" src="../assets/img/hero-lijn.jpg" alt="">
+  <div class="wrap pad">
+    <span class="eyebrow">Line integrator · Dongen, the Netherlands</span>
+    <h1 style="margin-top:14px">One line.<br>One <em>partner.</em></h1>
+    <p>We design, build and integrate complete filling and packaging lines. Machines of any brand, one party responsible, from first layout to the day your line runs.</p>
+    <div class="cta">
+      <a class="btn btn-red arrow" href="#check">Start your project </a>
+      <a class="btn btn-ghost" href="#check">Free line check</a>
+    </div>
+  </div>
+  <div class="since">Since 1962 · 250+ production sites · 40 countries</div>
+  <div class="hero-line"></div>
+</section>
+
+<!-- TWEE DEUREN -->
+<section class="doors station" id="doors">
+  <div class="wrap pad">
+    <div class="grid">
+      <div class="door">
+        <span class="eyebrow">Door 1</span>
+        <h3>What industry are you in?</h3>
+        <div class="chips">
+          <a class="chip" href="#">Beer &amp; brewing</a><a class="chip" href="#">Dairy &amp; infant nutrition</a>
+          <a class="chip" href="#">Water, soft drinks &amp; juices</a><a class="chip" href="#">Food</a>
+          <a class="chip" href="#">Pharma &amp; healthcare</a><a class="chip" href="#">Chemicals &amp; non-food</a>
+        </div>
+      </div>
+      <div class="door">
+        <span class="eyebrow">Door 2</span>
+        <h3>What do you want with your line?</h3>
+        <div class="big">
+          <a href="#"><b>A new line</b><span>From layout to start-up, one party.</span></a>
+          <a href="#"><b>Improve a line</b><span>More output, fewer stops, new formats.</span></a>
+          <a href="#"><b>Move a line</b><span>Dismantle, relocate, restart.</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DE LIJN -->
+<section class="walk station" id="line">
+  <div class="wrap pad">
+    <div class="head">
+      <div>
+        <span class="eyebrow">The line, from empty bottle to pallet</span>
+        <h2 style="margin-top:12px">Any brand. One red thread.</h2>
+      </div>
+      <p>Your filler, labeller or packer can be any make. We build everything around it and make it run as one line, under one control system. Click a station to see what we do there.</p>
+    </div>
+    <div class="line">
+      <a class="st" href="#"><div class="ph"><img src="../assets/img/m-depalletiser.jpg" alt=""></div><div class="tx"><span class="n">01</span><b>Depalletising</b><span>High speed, robot, low level</span></div></a>
+      <a class="st" href="#"><div class="ph"><img src="../assets/img/m-rinsers-aircleaners.png" alt=""></div><div class="tx"><span class="n">02</span><b>Rinsing &amp; drying</b><span>Rinsers, air cleaners, dryers</span></div></a>
+      <a class="st other" href="#"><div class="ph">⟳</div><div class="tx"><span class="n">03</span><b>Your filler</b><span>Any brand, integrated by us</span></div></a>
+      <a class="st" href="#"><div class="ph"><img src="../assets/img/dozenbaan.jpg" alt=""></div><div class="tx"><span class="n">04</span><b>Conveying &amp; buffering</b><span>Primary, secondary, accumulation</span></div></a>
+      <a class="st" href="#"><div class="ph"><img src="../assets/img/m-robot-inpakker.jpg" alt=""></div><div class="tx"><span class="n">05</span><b>Packing</b><span>Robot crate &amp; case packing</span></div></a>
+      <a class="st" href="#"><div class="ph"><img src="../assets/img/m-qimarox.png" alt=""></div><div class="tx"><span class="n">06</span><b>Palletising</b><span>Robot and conventional</span></div></a>
+      <a class="st" href="#"><div class="ph"><img src="../assets/img/robot-capper.jpg" alt=""></div><div class="tx"><span class="n">07</span><b>Pallet handling</b><span>Transport, magazines, control</span></div></a>
+    </div>
+    <div class="legend"><span class="r"><i></i>Built and integrated by Van Uitert</span><span class="k"><i></i>Third-party machine, integrated into the line</span></div>
+    <div class="detail" id="detail">
+      <button class="close" aria-label="Close">×</button>
+      <div><span class="eyebrow" id="d-n">01</span><h3 id="d-t">Depalletising</h3><p id="d-p"></p>
+        <div class="who"><div class="ph">ENG</div><div><b id="d-who">An engineer from Dongen</b><span id="d-q"></span></div></div></div>
+      <div><ul id="d-l"></ul><a class="btn btn-line arrow" href="#cases" style="margin-top:18px">Projects with this station </a></div>
+    </div>
+  </div>
+</section>
+
+<!-- BEWIJS -->
+<section class="proof">
+  <div class="wrap pad">
+    <div class="nums">
+      <div class="num"><b data-count="1962">0</b><span>Family company, Dongen</span></div>
+      <div class="num"><b><span data-count="250">0</span>+</b><span>Production sites equipped</span></div>
+      <div class="num"><b data-count="40">0</b><span>Countries</span></div>
+      <div class="num"><b data-count="92">0</b><span>People, everything in-house</span></div>
+    </div>
+    <div class="logos">
+      <img src="../assets/img/logo-heineken.svg" alt="Heineken"><img src="../assets/img/logo-nestle.svg" alt="Nestlé">
+      <img src="../assets/img/logo-frieslandcampina.svg" alt="FrieslandCampina"><img src="../assets/img/logo-abbott.svg" alt="Abbott">
+      <img src="../assets/img/logo-kelloggs.svg" alt="Kellogg's">
+    </div>
+  </div>
+</section>
+
+<!-- CASES -->
+<section class="cases station" id="cases">
+  <div class="wrap pad">
+    <div class="head">
+      <div><span class="eyebrow">Projects</span><h2 style="margin-top:12px">Lines we are responsible for</h2></div>
+      <a class="btn btn-line arrow" href="#">All projects </a>
+    </div>
+    <div class="cgrid reveal">
+      <a class="case" href="#">
+        <div class="ph"><img src="../assets/img/hero-lijn.jpg" alt=""></div>
+        <div class="tx">
+          <span class="who">Heineken · Zoeterwoude, NL · Beer</span>
+          <h3>460 metres of crossdock conveying, built in a running brewery</h3>
+          <div class="scope"><i class="on"></i><i class="on"></i><i></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div>
+          <span class="scope-l">Our scope in red, from depalletiser to pallet</span>
+          <p class="q">"They say what they do, and they do what they say."<small>Industrial Engineer Packaging, Heineken</small></p>
+        </div>
+      </a>
+      <a class="case" href="#">
+        <div class="ph"><img src="../assets/img/robot-capper.jpg" alt=""></div>
+        <div class="tx">
+          <span class="who">Abbott · Zwolle, NL · Infant nutrition</span>
+          <h3>30,000 bottles per hour, six lines, hygienic design</h3>
+          <div class="scope"><i class="on"></i><i class="on"></i><i></i><i class="on"></i><i class="on"></i><i></i><i></i></div>
+          <span class="scope-l">Our scope in red, from depalletiser to pallet</span>
+          <p class="q">"Flexible, fast and expert. We are very satisfied."<small>Program Manager, Abbott</small></p>
+        </div>
+      </a>
+      <a class="case" href="#">
+        <div class="ph"><img src="../assets/img/dozenbaan.jpg" alt=""></div>
+        <div class="tx">
+          <span class="who">AB InBev · Hoegaarden, BE · Beer</span>
+          <h3>40,000 bottles per hour with five robot cells</h3>
+          <div class="scope"><i></i><i></i><i></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div>
+          <span class="scope-l">Our scope in red, from depalletiser to pallet</span>
+          <p class="q">"A flawless implementation of our production line."<small>Project Manager, AB InBev</small></p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- MENSEN -->
+<section class="people station" id="people">
+  <div class="wrap pad">
+    <div class="grid">
+      <div>
+        <span class="eyebrow">Built by people you can reach</span>
+        <h2>No ticket system. A name and a face.</h2>
+        <p class="lead">A line project takes months and a lot of decisions. You make them with the same two people from the first layout to start-up. They are in Dongen, and they pick up.</p>
+        <p class="tel">General number <b>+31 162 313 136</b> · Monday to Friday 08:00–17:00</p>
+      </div>
+      <div class="cards reveal">
+        <div class="pcard">
+          <img src="../assets/img/job-van-uitert.png" alt="Job van Uitert">
+          <div><b>Job van Uitert</b><span>Sales · new lines and projects</span><q>"Send me your layout first. Then we talk."</q></div>
+          <a class="btn btn-red" href="#check">Mail Job</a>
+        </div>
+        <div class="pcard">
+          <div class="ph">AB</div>
+          <div><b>Ad van den Berg</b><span>Sales Manager · upgrades and relocations</span><q>"Most lines have more in them than you think."</q></div>
+          <a class="btn btn-ink" href="#check">Mail Ad</a>
+        </div>
+        <div class="pcard">
+          <div class="ph">NN</div>
+          <div><b>Your project engineer</b><span>One engineer per project, from design to SAT</span><q>"I was there when it started up. Ask me anything."</q></div>
+          <a class="btn btn-line" href="#cases">See a project</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIJNCHECK -->
+<section class="check station" id="check" style="padding-top:96px">
+  <div class="wrap pad">
+    <div class="box reveal">
+      <div>
+        <span class="eyebrow">Free line check</span>
+        <h2 style="margin-top:12px">Send us a photo of your line.<br>We'll tell you what we see.</h2>
+        <p>An hour with one of our engineers, online or at your plant. No quote, no sales pitch. You get a short note with what we would improve first, and why.</p>
+        <ol><li>Send a photo, a layout or a few lines about the problem.</li><li>We call you within a week to plan the hour.</li><li>You get our notes. What you do with them is up to you.</li></ol>
+      </div>
+      <form onsubmit="return false">
+        <div class="two">
+          <div><label>What is it about?</label><select><option>A new line</option><option>Improve an existing line</option><option>Move a line</option><option>Service or parts</option></select></div>
+          <div><label>When?</label><select><option>Within 6 months</option><option>6 to 12 months</option><option>Later than 12 months</option></select></div>
+        </div>
+        <div class="two">
+          <div><label>Name</label><input type="text"></div>
+          <div><label>Company</label><input type="text"></div>
+        </div>
+        <div><label>Email</label><input type="email"></div>
+        <div><label>Your line, in a few words (photo or layout optional)</label><textarea rows="3"></textarea></div>
+        <button class="btn btn-red" type="submit">Request the line check</button>
+        <small>Goes directly to Job or Ad. No newsletter, no follow-up calls you did not ask for.</small>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- WERELD + WERKEN BIJ -->
+<section class="duo">
+  <div class="wrap pad">
+    <div class="grid">
+      <div class="tile">
+        <div>
+          <span class="eyebrow">Worldwide</span>
+          <h3>Do you work where we are?</h3>
+          <p>Lines in 40 countries, installed and started up by our own fitters. A few of them:</p>
+          <div class="countries"><span>NL</span><span>BE</span><span>DE</span><span>FR</span><span>UK</span><span>PL</span><span>SK</span><span>NG</span><span>SA</span><span>CN</span><span>US</span><span>+29</span></div>
+        </div>
+        <a class="btn btn-line arrow" href="#">Projects on the map </a>
+      </div>
+      <div class="tile dark" id="careers">
+        <div>
+          <span class="eyebrow">Werken bij · every day is different</span>
+          <h3>Where our team was this month</h3>
+          <p>Fitters, engineers and welders. In Dongen and wherever the line is.</p>
+          <div class="month">
+            <div style="background-image:url(../assets/img/robot-capper.jpg)">Zwolle</div>
+            <div style="background-image:url(../assets/img/dozenbaan.jpg)">Joure</div>
+            <div style="background-image:url(../assets/img/hero-lijn.jpg)">Dongen</div>
+          </div>
+        </div>
+        <a class="btn btn-red arrow" href="#">5 vacatures in Dongen </a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="grid">
+      <div><a class="logo" href="#"><img src="../assets/img/logo.svg" alt="Van Uitert" style="height:30px"></a><p style="margin-top:14px;max-width:32ch">Van Uitert B.V. · De Schacht 9, 5107 RD Dongen, the Netherlands · info@uitert.nl · +31 162 313 136</p></div>
+      <div><h4>Solutions</h4><ul><li>Complete lines</li><li>Line integration</li><li>Upgrades &amp; expansions</li><li>Line relocation</li><li>Engineering &amp; line design</li></ul></div>
+      <div><h4>Company</h4><ul><li>Projects</li><li>Industries</li><li>Service &amp; parts</li><li>Partners</li><li>Werken bij</li></ul></div>
+      <div><h4>Legal</h4><ul><li>Privacy</li><li>Cookies</li><li>Terms (Metaalunie)</li><li>KvK 18129193 · NL800503983B01</li></ul></div>
+    </div>
+    <div class="bottom"><span>© Van Uitert B.V.</span><span>Concept, 17-10-2026. Photos: own projects. Quotes: shown with function only, as agreed.</span></div>
+  </div>
+</footer>
+
+<div class="concept-note">CONCEPT · DE RODE DRAAD</div>
+
+<script>
+/* De rode draad tekent mee met het scrollen; stations lichten op als de draad ze passeert. */
+(function(){
+  var rail=document.querySelector('.thread .rail'), main=document.querySelector('main');
+  var stations=[].slice.call(document.querySelectorAll('.station'));
+  function draw(){
+    var mainTop=main.getBoundingClientRect().top+window.scrollY;
+    var tip=window.scrollY+window.innerHeight*0.62-mainTop;
+    var max=main.offsetHeight; if(tip>max)tip=max; if(tip<0)tip=0;
+    rail.style.height=tip+'px';
+    stations.forEach(function(s){var y=s.getBoundingClientRect().top+window.scrollY-mainTop+14; s.classList.toggle('lit',y<tip);});
+  }
+  window.addEventListener('scroll',draw,{passive:true}); window.addEventListener('resize',draw); draw();
+
+  /* Secties schuiven in beeld, de horizontale lijn tekent zichzelf, cijfers tellen op. */
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;
+    e.target.classList.add('in'); if(e.target.classList.contains('line'))e.target.classList.add('drawn');
+    e.target.querySelectorAll('[data-count]').forEach(count); io.unobserve(e.target);});},{threshold:.25});
+  document.querySelectorAll('.reveal,.line,.proof').forEach(function(el){io.observe(el);});
+  function count(el){var t=parseInt(el.getAttribute('data-count'),10),s=null;function f(ts){if(!s)s=ts;var p=Math.min((ts-s)/1200,1);el.textContent=Math.round((1-Math.pow(1-p,3))*t);if(p<1)requestAnimationFrame(f);}requestAnimationFrame(f);}
+
+  /* Station aanklikken: wat we daar doen, wie je spreekt. */
+  var D={
+    '01':['Depalletising','Empty bottles, cans or jars come in on pallets. Our depalletisers take them off layer by layer, at line speed, without damage. High speed, compact, low level or with a robot, depending on your products and your floor.',['Up to 60,000 containers per hour','Robot version handles mixed products','Pallet and layer-sheet handling included'],'"The first machine sets the pace for the whole line. We size it on your real pallets, not the datasheet."'],
+    '02':['Rinsing & drying','Before filling, containers are rinsed with water or air. After filling, they are dried before labelling or packing. Our rinsers and dryers are built around your container and your hygiene standard.',['Water, ionised air or both','Hygienic design for food and pharma','Dryers for cans, bottles and cups'],'"A dry bottle is a readable label. It sounds small until a pallet comes back."'],
+    '03':['Your filler','The filler, labeller or packer can be any brand. We design the conveying and buffering around it, connect it to our control system and make sure the line runs as one. That is what a line integrator does.',['Any make, new or existing','One control system, one screen','We talk to the supplier so you do not have to'],'"Most of our lines have four or five brands in them. The customer only sees one line."'],
+    '04':['Conveying & buffering','Conveyors are the backbone of the line. Primary packaging, secondary packaging and pallets, with accumulation and buffering so a short stop in one machine does not stop the others.',['Primary, secondary and pallet conveying','Buffer tables and accumulation','Built in our own workshop in Dongen'],'"Micro-stops cost more than breakdowns. Buffering is where a line earns its money."'],
+    '05':['Packing','Robots that put bottles in crates, cans in trays, cartons in cases. Fast changeovers between formats, gentle on the product.',['Robot crate and case packing','Format change in minutes','Gripper heads built in-house'],'"Every product is different. We test the gripper on your product before we build the cell."'],
+    '06':['Palletising','Full cases, crates or trays are stacked on pallets. Conventional or with a robot, with the stacking patterns, layer sheets and pallet magazine that your warehouse needs.',['Robot and conventional palletisers','Qimarox partner','Up to 4,380 packs per hour'],'"Stable pallets leave the plant. Unstable ones come back. We build for the second case."'],
+    '07':['Pallet handling','Full pallets go to the wrapper, the labeller and the warehouse. Empty pallets come back. Pallet conveyors, magazines and the control that keeps it all moving.',['Pallet conveying and magazines','Integration of wrappers and labellers','Warehouse connection'],'"The line is not finished at the palletiser. It is finished when the truck leaves."']
+  };
+  var panel=document.getElementById('detail');
+  document.querySelectorAll('.st').forEach(function(st){st.addEventListener('click',function(ev){ev.preventDefault();
+    var n=st.querySelector('.n').textContent, d=D[n]; if(!d)return;
+    document.querySelectorAll('.st').forEach(function(x){x.classList.remove('active');}); st.classList.add('active');
+    document.getElementById('d-n').textContent='Station '+n; document.getElementById('d-t').textContent=d[0]; document.getElementById('d-p').textContent=d[1];
+    document.getElementById('d-l').innerHTML=d[2].map(function(x){return '<li>'+x+'</li>';}).join(''); document.getElementById('d-q').textContent=d[3];
+    panel.classList.add('open'); panel.scrollIntoView({behavior:'smooth',block:'nearest'});});});
+  panel.querySelector('.close').addEventListener('click',function(){panel.classList.remove('open');document.querySelectorAll('.st').forEach(function(x){x.classList.remove('active');});});
+})();
+</script>
+</body>
+</html>
