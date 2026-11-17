@@ -1,47 +1,67 @@
-# Van Uitert — website (concept)
+# Van Uitert website (concept)
 
-Nieuwe website voor Van Uitert B.V., gebaseerd op uitert.nl. Pure HTML/CSS/JavaScript:
-geen database, geen build-stap, geen server-code. Elke statische host kan hem draaien.
+Nieuwe website voor Van Uitert B.V. Positionering: lijnintegrator. Ontwerp: "De rode draad".
+Statische site: HTML, CSS en een klein script. Geen database, geen WordPress, geen vast thema.
 
-## Bekijken op je eigen pc
+## Pagina's
 
-Dubbelklik op `index.html`. Klaar.
+| Pagina | Bestand | Doel |
+|---|---|---|
+| Home | `index.html` | Boodschap, drie vragen, de lijn met zes stations, bewijs, projecten |
+| What we do | `solutions.html` | Nieuwe lijn, lijn verbeteren, lijn verhuizen, service |
+| Machines | `machines.html` | Wat we zelf bouwen, per station |
+| Projects | `projects.html` | Overzicht van cases (proefpagina's) |
+| Case | `project-heineken-zoeterwoude.html` | Proefpagina voor een case |
+| About us | `about.html` | Bedrijf, geschiedenis, partners |
+| Werken bij | `werken-bij.html` | Vacatures (Nederlands) |
+| Contact | `contact.html` | Formulier en contactpersonen |
 
-## Structuur
+## Vaste regels van het ontwerp
+
+- Een idee: de rode draad loopt over elke pagina en eindigt bij een persoon.
+- Vier menu-items en een knop: "Start your project".
+- Elke pagina eindigt met hetzelfde slotblok.
+- Kleuren: rood, antraciet, wit. Geen mobiele nummers. Quotes alleen met functie en bedrijf.
+
+## Aanpassen
+
+| Wat | Waar |
+|---|---|
+| Tekst van een pagina | `src/pages/<pagina>.html` |
+| Menu, kop, voet | `src/partials/header.html` en `footer.html` |
+| Slotblok met contactpersonen | `src/partials/closing.html` |
+| Projectkaarten (home en Projects) | `src/partials/cases.html` |
+| Opmaak | `assets/css/site.css` |
+| Gedrag (rode draad, stations, formulier) | `assets/js/site.js` |
+
+Na een wijziging in `src/`: pagina's opnieuw bouwen.
 
 ```
-index.html                           Home
-oplossingen.html                     Alle oplossingen, met productfilter
-oplossingen-qimarox-palletiser.html  Voorbeeld-detailpagina (template voor de rest)
-diensten.html                        Engineering, lijnaudit, inspecties, onderhoud, spare parts
-over-ons.html                        Geschiedenis, team, klanten
-werken-bij.html                      Werken bij / open sollicitatie
-contact.html                         Contactformulier, adres, kaart
-404.html                             Foutpagina bij een onbekende URL
-robots.txt                           Zoekmachine-instelling (staat nu op "niet indexeren")
-assets/css/style.css                 Alle opmaak; kleuren staan bovenin als variabelen
-assets/js/main.js                    Menu, filter, FAQ, formulier
-assets/img/                          Logo, foto's, klantlogo's
+bash tools/build.sh
 ```
 
-Header en footer staan in elke pagina los. Pas je een menu-item aan, doe dat dan in alle
-`.html`-bestanden.
+## Bekijken op de eigen pc
 
-## Publiceren via GitHub Pages
+```
+powershell -ExecutionPolicy Bypass -File tools\serve.ps1
+```
 
-1. Zet de wijzigingen in de repository (`git add -A`, `git commit -m "..."`, `git push`).
-2. GitHub > repository > **Settings > Pages** > Source: *Deploy from a branch*,
-   branch `main`, map `/ (root)`.
-3. Na een minuut staat de site op `https://<account>.github.io/<repository>/`.
-   Elke volgende `git push` werkt de site automatisch bij.
+Daarna in de browser: http://localhost:8377/
 
-## Checklist vóór echte livegang
+## Online zetten
 
-- [ ] `robots.txt` omzetten naar `Allow: /` (staat nu bewust dicht in de conceptfase)
-- [ ] Eigen domein koppelen (Settings > Pages > Custom domain) en DNS bij de provider aanpassen
-- [ ] Contactformulier aan een echte verwerker koppelen (bijv. Formspree); nu opent het
-      het mailprogramma van de bezoeker (`mailto:`)
-- [ ] Privacybeleid, cookieverklaring, disclaimer en algemene voorwaarden toevoegen en
-      linken vanuit footer en formulier
-- [ ] Detailpagina's voor de overige oplossingen maken (kopie van de Qimarox-pagina)
-- [ ] `sitemap.xml` toevoegen zodra het definitieve domein vaststaat
+`git add -A`, `git commit`, `git push`. Netlify zet de nieuwe versie vanzelf online.
+De eerste versie (marineblauw) staat in git onder het label `v1-marineblauw`.
+
+## Checklist voor livegang
+
+- [ ] Proefpagina's van de cases vullen en laten goedkeuren
+- [ ] Nederlandse versie onder `/nl/`
+- [ ] Beheeromgeving voor vacatures (HR zet zelf online en offline)
+- [ ] Formulier: Netlify Forms aanzetten (tot dan opent het formulier het mailprogramma)
+- [ ] Mailadres voor sollicitaties bevestigen (nu info@uitert.nl)
+- [ ] Lettertypen zelf hosten in plaats van via Google
+- [ ] Privacy, cookies en algemene voorwaarden
+- [ ] `robots.txt` op `Allow: /` en `noindex` uit de kop halen
+- [ ] Domein uitert.nl koppelen, `sitemap.xml` toevoegen
+- [ ] Het label CONCEPT linksonder weghalen
