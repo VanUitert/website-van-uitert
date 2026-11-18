@@ -32,7 +32,7 @@ for f in src/pages/*.html; do
   old='<img class="bg" src='; new='<img class="bg" fetchpriority="high" src='
   body=${body//"$old"/$new}
   while read -r n bw sw slot; do
-    [ -z "$n" ] && continue
+    slot=${slot%$''}; [ -z "$n" ] && continue
     old="src=\"assets/img/$n.jpg\""
     new="src=\"assets/img/$n.jpg\" srcset=\"assets/img/$n-$sw.jpg ${sw}w, assets/img/$n.jpg ${bw}w\" sizes=\"(max-width:900px) 70vw, $slot\""
     body=${body//"$old"/$new}
