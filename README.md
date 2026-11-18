@@ -23,7 +23,7 @@ Statische site: HTML, CSS en een klein script. Geen database, geen WordPress, ge
 - Een idee: de rode draad loopt over elke pagina en eindigt bij een persoon.
 - Vier menu-items en een knop: "Start your project".
 - Elke pagina eindigt met hetzelfde slotblok. Oplossings- en machinepagina's tonen daarboven een passend project.
-- Cijfers alleen uit eigen bronnen: leaflets en materiaalbladen op `L:PB.0 Machinebeschrijvingen`, de huidige site of een orderdocument. Geen foto bij een machine of project waar hij niet bij hoort.
+- Cijfers alleen uit eigen bronnen: leaflets en materiaalbladen op `L:/PB/1.0 Machinebeschrijvingen`, de huidige site of een orderdocument. Geen foto bij een machine of project waar hij niet bij hoort.
 - Kleuren: rood, antraciet, wit. Geen mobiele nummers. Quotes alleen met functie en bedrijf.
 
 ## Aanpassen
