@@ -37,7 +37,7 @@ Statische site: HTML, CSS en een klein script. Geen database, geen WordPress, ge
 | Passend project onder een pagina | regel `<!--rel-heineken-->`, `<!--rel-abbott-->` of `<!--rel-abinbev-->` in de pagina |
 | Vacatures | `src/partials/jobs-nl.html` en de keuzelijst in `src/pages/werken-bij.html` |
 | Voorkeuze in het contactformulier | link naar `contact.html?about=Line%20audit` (tekst moet gelijk zijn aan een keuze) |
-| Foto toevoegen of vervangen | `tools/foto.ps1 -Bron "<origineel>" -Naam <naam>` maakt een groot (1400 px) en een klein (800 px) formaat; de site kiest zelf per scherm. Altijd het origineel uit de beeldbank nemen, niet de 416 px-versie van de oude site |
+| Foto toevoegen of vervangen | `tools/foto.ps1 -Bron "<origineel>" -Naam <naam> -Filter` zet het Van Uitert-fotofilter erop en maakt een groot (1400 px) en een klein (800 px) formaat; de site kiest zelf per scherm. Altijd het origineel uit de beeldbank nemen, niet de 416 px-versie van de oude site. `-Filter` weglaten bij een foto die al bewerkt is (map Bewerkt) |
 | Klantlogo erbij | svg in `assets/img/logo-<naam>.svg` en een regel met de hoogte bij "Logo's" onderaan `assets/css/site.css` |
 | Opmaak | `assets/css/site.css` |
 | Gedrag (rode draad, stations, formulier) | `assets/js/site.js` |
