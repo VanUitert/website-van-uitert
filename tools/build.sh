@@ -24,7 +24,20 @@ for f in src/pages/*.html; do
       case "$body" in *"<!--$n-->"*) c=$(cat "$p"); body=${body//"<!--$n-->"/$c};; esac
     done
   done
+  # foto's: lui laden en per scherm het passende formaat (lijst in assets/img/sizes.txt)
+  old='<img src="assets/img/'; new='<img loading="lazy" decoding="async" src="assets/img/'
+  body=${body//"$old"/$new}
+  old='<img loading="lazy" decoding="async" src="assets/img/logo-'; new='<img src="assets/img/logo-'
+  body=${body//"$old"/$new}
+  old='<img class="bg" src='; new='<img class="bg" fetchpriority="high" src='
+  body=${body//"$old"/$new}
+  while read -r n bw sw slot; do
+    [ -z "$n" ] && continue
+    old="src=\"assets/img/$n.jpg\""
+    new="src=\"assets/img/$n.jpg\" srcset=\"assets/img/$n-$sw.jpg ${sw}w, assets/img/$n.jpg ${bw}w\" sizes=\"(max-width:900px) 70vw, $slot\""
+    body=${body//"$old"/$new}
+  done < assets/img/sizes.txt
   printf '%s\n%s\n%s\n' "$h" "$body" "$foot" > "$out"
 done
-sed -i -e 's|href="assets/|href="/assets/|g' -e 's|src="assets/|src="/assets/|g' -e 's|href="\([a-z-]*\.html\)|href="/\1|g' 404.html
+sed -i -e 's|srcset="assets/|srcset="/assets/|g' -e 's|w, assets/|w, /assets/|g' -e 's|href="assets/|href="/assets/|g' -e 's|src="assets/|src="/assets/|g' -e 's|href="\([a-z-]*\.html\)|href="/\1|g' 404.html
 echo "Gebouwd: $(ls src/pages/*.html | wc -l) pagina's"

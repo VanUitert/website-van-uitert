@@ -37,6 +37,8 @@ Statische site: HTML, CSS en een klein script. Geen database, geen WordPress, ge
 | Passend project onder een pagina | regel `<!--rel-heineken-->`, `<!--rel-abbott-->` of `<!--rel-abinbev-->` in de pagina |
 | Vacatures | `src/partials/jobs-nl.html` en de keuzelijst in `src/pages/werken-bij.html` |
 | Voorkeuze in het contactformulier | link naar `contact.html?about=Line%20audit` (tekst moet gelijk zijn aan een keuze) |
+| Foto toevoegen of vervangen | `toolsoto.ps1 -Bron "<origineel>" -Naam <naam>` maakt een groot (1400 px) en een klein (800 px) formaat; de site kiest zelf per scherm. Altijd het origineel uit de beeldbank nemen, niet de 416 px-versie van de oude site |
+| Klantlogo erbij | svg in `assets/img/logo-<naam>.svg` en een regel met de hoogte bij "Logo's" onderaan `assets/css/site.css` |
 | Opmaak | `assets/css/site.css` |
 | Gedrag (rode draad, stations, formulier) | `assets/js/site.js` |
 
@@ -68,6 +70,7 @@ De eerste versie (marineblauw) staat in git onder het label `v1-marineblauw`.
 - [ ] Serviceadres bevestigen (nu services@uitert.nl; in het adresboek staat services@uitert.com en spares@uitert.nl)
 - [ ] Projectpagina's: toestemming klant voor naam, tekst, foto en quote op de website
 - [ ] Foto's per machine-uitvoering uit de beeldbank aanvullen
+- [ ] Scherp origineel zoeken voor `m-lijnintegratie`, `m-lijn-upgrade`, `m-verplaatsen-lijn` en `m-qimarox` (nu 416 px van de oude site)
 - [ ] Lettertypen zelf hosten in plaats van via Google
 - [ ] Privacy, cookies en algemene voorwaarden
 - [ ] `robots.txt` op `Allow: /` en `noindex` uit de kop halen

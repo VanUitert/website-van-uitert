@@ -365,3 +365,26 @@ a.case:hover{border-color:var(--red)}
 @media(max-width:900px){.job .cols{grid-template-columns:1fr}}
 .split.wide .form{gap:12px;padding:24px}
 .split.wide .form input,.split.wide .form select,.split.wide .form textarea{padding:11px 12px}
+
+/* Logo's: optisch gelijke grootte, vaste ruimte eromheen */
+.hero .trust .wrap{gap:14px 52px;padding-block:14px}
+.hero .trust img,.logos img{height:calc(var(--lh,28px)*var(--ls,1));width:auto;flex:none}
+img[src*="logo-heineken"]{--lh:22px}
+img[src*="logo-nestle"]{--lh:27px}
+img[src*="logo-frieslandcampina"]{--lh:34px}
+img[src*="logo-abbott"]{--lh:30px}
+img[src*="logo-kelloggs"]{--lh:32px}
+.logos{gap:30px 60px}
+@media(max-width:900px){
+  .hero .trust .wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:22px 24px;padding-block:22px 24px;align-items:center}
+  .hero .trust span{grid-column:1/-1}
+  .hero .trust img{--ls:.82;max-width:100%;object-fit:contain;object-position:left center}
+  .logos{display:grid;grid-template-columns:repeat(3,1fr);gap:26px 24px}
+  .logos img{--ls:.82;max-width:100%;object-fit:contain;object-position:left center}
+}
+
+/* Telefoon: tikdoelen minstens 40 px hoog, kleine labels iets groter */
+.topbar a{display:inline-flex;align-items:center;height:36px}
+.more{display:inline-block;padding-top:10px}
+.job summary{padding:10px 0;margin-top:0}
+@media(max-width:560px){.specs dt{font-size:12px}}
