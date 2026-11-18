@@ -67,21 +67,52 @@
   }
 
   var hdr=document.querySelector('header.site'), mb=document.querySelector('.menu-btn');
-  if(hdr&&mb){mb.addEventListener('click',function(){var o=hdr.classList.toggle('open');mb.setAttribute('aria-expanded',o?'true':'false');mb.textContent=o?'Close':'Menu';});}
+  if(hdr&&mb){mb.addEventListener('click',function(){var o=hdr.classList.toggle('open');mb.setAttribute('aria-expanded',o?'true':'false');mb.textContent=o?(document.documentElement.lang==='nl'?'Sluiten':'Close'):'Menu';});}
 
+  /* Voorkeuze in een formulier via de link, bijv. contact.html?about=Line%20audit
+     of een knop met data-pick="Lasser" data-target="s-job". Alleen bestaande keuzes. */
+  function pick(sel,val){
+    if(!sel||!val)return;
+    [].forEach.call(sel.options,function(o){if(o.text.toLowerCase()===val.toLowerCase())sel.value=o.value||o.text;});
+  }
+  var q=/[?&]about=([^&#]+)/.exec(location.search);
+  if(q)pick(document.getElementById('f-about'),decodeURIComponent(q[1].replace(/\+/g,' ')));
+  [].forEach.call(document.querySelectorAll('[data-pick]'),function(b){
+    b.addEventListener('click',function(){pick(document.getElementById(b.getAttribute('data-target')),b.getAttribute('data-pick'));});
+  });
+
+  /* Filter op de projectenpagina. */
+  var filt=document.querySelector('.filter');
+  if(filt){
+    var fb=[].slice.call(filt.querySelectorAll('button'));
+    fb.forEach(function(b){b.addEventListener('click',function(){
+      var k=b.getAttribute('data-f');
+      fb.forEach(function(x){x.classList.toggle('on',x===b);x.setAttribute('aria-pressed',x===b?'true':'false');});
+      [].forEach.call(document.querySelectorAll('.cgrid .case'),function(c){c.hidden=!(k==='all'||c.getAttribute('data-ind')===k);});
+    });});
+  }
+
+  /* Formulieren: eerst Netlify Forms, anders het mailprogramma van de bezoeker.
+     Een bijlage gaat alleen mee via Netlify; in de mail vragen we hem erbij te doen. */
   [].forEach.call(document.querySelectorAll('form.form'),function(form){
     form.addEventListener('submit',function(ev){
       ev.preventDefault();
-      var data=new FormData(form), pairs=[], lines=[];
-      data.forEach(function(v,k){pairs.push(encodeURIComponent(k)+'='+encodeURIComponent(v)); if(k!=='form-name'&&k!=='bot-field'&&v)lines.push(k+': '+v);});
+      var data=new FormData(form), pairs=[], lines=[], hasFile=false, about='';
+      data.forEach(function(v,k){
+        if(typeof v!=='string'){ if(v&&v.name){hasFile=true;lines.push(k+': '+v.name+' ('+(form.getAttribute('data-attach')||'please attach this file to this mail')+')');} return; }
+        pairs.push(encodeURIComponent(k)+'='+encodeURIComponent(v));
+        if(k==='About')about=v;
+        if(k!=='form-name'&&k!=='bot-field'&&v)lines.push(k+': '+v);
+      });
       var mail=function(){
         var to=form.getAttribute('data-mail')||'info@uitert.nl';
+        if(about==='Service or parts'&&form.getAttribute('data-mail-service'))to=form.getAttribute('data-mail-service');
         window.location.href='mailto:'+to+'?subject='+encodeURIComponent(form.getAttribute('data-subject')||'Website')+'&body='+encodeURIComponent(lines.join('\n'));
       };
       var ok=function(){form.classList.add('sent');form.reset();};
       if(location.protocol.indexOf('http')!==0){mail();return;}
-      fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:pairs.join('&')})
-        .then(function(r){if(r.ok)ok();else mail();}).catch(mail);
+      var opt=hasFile?{method:'POST',body:data}:{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:pairs.join('&')};
+      fetch('/',opt).then(function(r){if(r.ok)ok();else mail();}).catch(mail);
     });
   });
 })();

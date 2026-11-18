@@ -80,16 +80,20 @@ section{position:relative;z-index:2}
 @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
 
 /* ---------- hero (home) ---------- */
-.hero{background:var(--ink);color:#fff;overflow:hidden;min-height:600px;display:flex;align-items:flex-end}
+.hero{background:var(--ink);color:#fff;overflow:hidden;min-height:min(600px,calc(100vh - 118px));display:flex;flex-direction:column;justify-content:flex-end}
 .hero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55}
 .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(35,31,32,.95) 0%,rgba(35,31,32,.6) 55%,rgba(35,31,32,.2) 100%)}
-.hero .wrap{position:relative;z-index:2;width:100%;padding-block:72px 76px}
-.hero h1{font-size:clamp(44px,7vw,96px);max-width:11ch}
+.hero .wrap{position:relative;z-index:2;width:100%;padding-block:52px 40px}
+.hero h1{font-size:clamp(44px,6.4vw,88px);max-width:11ch}
 .hero h1 em{font-style:normal;color:var(--red)}
 .hero p{font-size:clamp(17px,2vw,21px);max-width:50ch;color:rgba(255,255,255,.88);margin-top:22px}
-.hero .cta{display:flex;gap:14px;flex-wrap:wrap;margin-top:34px}
-.hero .since{position:absolute;right:24px;bottom:24px;z-index:2;font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.7)}
-@media(max-width:900px){.hero{min-height:520px}.hero .since{position:static;margin-top:36px;display:block}}
+.hero .cta{display:flex;gap:14px;flex-wrap:wrap;margin-top:30px}
+.hero .trust{position:relative;z-index:2;width:100%;background:rgba(35,31,32,.72);border-top:1px solid rgba(255,255,255,.14)}
+.hero .trust .wrap{display:flex;align-items:center;flex-wrap:wrap;gap:14px 40px;padding-block:18px}
+.hero .trust span,.hero .trust em{font-family:var(--mono);font-style:normal;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.7)}
+.hero .trust em{margin-left:auto}
+.hero .trust img{height:26px;filter:brightness(0) invert(1);opacity:.85}
+@media(max-width:900px){.hero{min-height:0}.hero .wrap{padding-block:48px 36px}.hero .trust .wrap{gap:12px 26px;padding-block:16px}.hero .trust span{width:100%}.hero .trust img{height:20px}.hero .trust em{margin-left:0;width:100%}}
 
 /* ---------- kop van een vervolgpagina ---------- */
 .phero{background:var(--ink);color:#fff;padding:72px 0 64px;border-bottom:3px solid var(--red)}
@@ -299,3 +303,65 @@ footer .bottom{margin-top:40px;padding-top:20px;border-top:1px solid rgba(255,25
 @media(max-width:800px){footer .grid{grid-template-columns:1fr}}
 .concept-note{position:fixed;left:16px;bottom:16px;z-index:60;background:var(--red);color:#fff;font-family:var(--mono);font-size:11px;letter-spacing:.1em;padding:8px 12px;border-radius:3px}
 @media(max-width:900px){.concept-note{display:none}}
+
+/* ---------- ronde 18-11: compacte kop, formulier, verwante projecten ---------- */
+.phero.slim{padding:30px 0 26px}
+.phero.slim h1{font-size:clamp(30px,3.6vw,44px);max-width:none}
+.phero.slim p{margin-top:10px;font-size:17px}
+.split.wide{grid-template-columns:1.5fr 1fr}
+.form label i{font-style:normal;font-weight:400;color:var(--grey-2);margin-left:6px}
+.form input[type=file]{padding:9px;font-size:14px}
+.form .send{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.form .note{font-size:14px;color:var(--grey)}
+@media(max-width:900px){.split.wide{grid-template-columns:1fr}}
+/* verwant project onderaan een pagina */
+.rel .case{display:grid;grid-template-columns:.8fr 1.2fr;flex-direction:row}
+.rel .case .ph{aspect-ratio:auto;min-height:240px}
+.rel .case .tx{padding:28px 32px;justify-content:center}
+.rel .case h3{font-size:24px;max-width:26ch}
+.rel .eyebrow{margin-bottom:18px}
+a.case:hover{border-color:var(--red)}
+@media(max-width:900px){.rel .case{grid-template-columns:1fr}.rel .case .ph{min-height:0;aspect-ratio:16/8}.rel .case .tx{padding:22px}}
+/* machinepagina: kenmerken per uitvoering */
+.specs{display:grid;grid-template-columns:max-content 1fr;margin-top:22px;border-top:1px solid var(--line);font-size:15.5px}
+.specs dt{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--grey);padding:13px 24px 13px 0;border-bottom:1px solid var(--line)}
+.specs dd{padding:11px 0;border-bottom:1px solid var(--line);color:var(--ink)}
+.sec.paper .specs,.sec.paper .specs dt,.sec.paper .specs dd{border-color:#d9d6cf}
+.row.flip > .ph{order:2}
+@media(max-width:900px){.row.flip > .ph{order:0}}
+@media(max-width:560px){.specs{grid-template-columns:1fr}.specs dt{border-bottom:0;padding:12px 0 0}.specs dd{padding:2px 0 12px}}
+.phero .jump a.other{border-style:dashed;color:rgba(255,255,255,.75)}
+.mgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.mcard{display:flex;flex-direction:column;border:1.5px solid var(--line);border-radius:4px;overflow:hidden;background:#fff;transition:.15s}
+.mcard:hover{border-color:var(--red);transform:translateY(-2px)}
+.mcard .ph{aspect-ratio:4/3;overflow:hidden;background:var(--paper)}
+.mcard .ph img{width:100%;height:100%;object-fit:cover}
+.mcard .tx{padding:20px 22px 22px;display:flex;flex-direction:column;gap:6px;flex:1}
+.mcard .n{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--red);letter-spacing:.1em}
+.mcard b{font-size:21px;font-weight:800;letter-spacing:-.01em}
+.mcard span.d{font-size:15px;color:var(--grey)}
+.mcard i{font-style:normal;color:var(--red);font-weight:700;font-size:14.5px;margin-top:auto;padding-top:12px}
+.mcard.other{border-style:dashed;background:transparent}
+.mcard.other .ph{display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--grey)}
+@media(max-width:900px){.mgrid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.mgrid{grid-template-columns:1fr}.mcard .ph{aspect-ratio:16/8}}
+/* filter op projecten */
+.filter{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+.filter button{padding:9px 16px;border:1.5px solid var(--line);border-radius:999px;background:#fff;font:inherit;font-size:14.5px;font-weight:600;cursor:pointer;color:var(--ink)}
+.filter button:hover{border-color:var(--ink)}
+.filter button.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.case[hidden]{display:none}
+.also{margin-top:28px;color:var(--grey);font-size:15.5px;max-width:70ch}
+/* vacatures met details */
+.job details{grid-column:1/-1;min-width:0}
+.job summary{cursor:pointer;font-weight:700;color:var(--red);font-size:14.5px;list-style:none;display:inline-block;margin-top:4px}
+.job summary::-webkit-details-marker{display:none}
+.job summary::after{content:" +"}
+.job details[open] summary::after{content:" \2212"}
+.job .cols{display:grid;grid-template-columns:repeat(2,1fr);gap:20px 32px;margin-top:16px;padding:20px 22px;background:#fff;border:1px solid var(--line);border-radius:4px}
+.job .cols h4{font-size:13px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+.job .cols li{font-size:14.5px;color:var(--grey);padding:4px 0 4px 16px;position:relative}
+.job .cols li::before{content:"";position:absolute;left:0;top:13px;width:6px;height:2px;background:var(--red)}
+@media(max-width:900px){.job .cols{grid-template-columns:1fr}}
+.split.wide .form{gap:12px;padding:24px}
+.split.wide .form input,.split.wide .form select,.split.wide .form textarea{padding:11px 12px}
