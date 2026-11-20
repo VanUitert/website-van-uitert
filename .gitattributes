@@ -1,4 +1,2 @@
-* text=auto
-*.jpg binary
-*.png binary
-*.webp binary
+# Bouwscript moet Unix-regeleinden houden, anders werkt het niet na een verse kloon op Windows
+*.sh text eol=lf
