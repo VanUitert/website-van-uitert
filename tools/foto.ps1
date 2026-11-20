@@ -3,11 +3,11 @@
 # Gebruik: powershell -ExecutionPolicy Bypass -File tools\foto.ps1 -Bron "L:\...\foto.jpg" -Naam m-rinser -Filter
 # -Filter zet het Van Uitert-fotofilter erop (geleerd uit de bewerkte foto's in de beeldbank, preset UitertBV).
 # Alleen gebruiken bij een onbewerkt origineel; een foto uit een map "Bewerkt" heeft het filter al.
-param([Parameter(Mandatory)][string]$Bron, [Parameter(Mandatory)][string]$Naam, [switch]$Filter, [int]$Groot = 1400, [int]$Klein = 800, [string]$Vak = '50vw')
+param([Parameter(Mandatory)][string]$Bron, [Parameter(Mandatory)][string]$Naam, [switch]$Filter, [int]$Groot = 1400, [int]$Klein = 800, [string]$Vak = '50vw', [string]$Map)
 $ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName System.Drawing
 Add-Type -Path (Join-Path $PSScriptRoot 'filter\Lut.cs') -ReferencedAssemblies System.Drawing
-$map = Join-Path (Split-Path $PSScriptRoot -Parent) 'assets\img'
+if (-not $Map) { $Map = Join-Path (Split-Path $PSScriptRoot -Parent) 'assets\img' }
 $codec = [System.Drawing.Imaging.ImageCodecInfo]::GetImageEncoders() | Where-Object { $_.MimeType -eq 'image/jpeg' }
 function Jpg($bmp, [int]$q, [string]$dst) { $ep = New-Object System.Drawing.Imaging.EncoderParameters(1); $ep.Param[0] = New-Object System.Drawing.Imaging.EncoderParameter([System.Drawing.Imaging.Encoder]::Quality, [long]$q); $bmp.Save($dst, $codec, $ep) }
 $ms = New-Object IO.MemoryStream(,[IO.File]::ReadAllBytes($Bron)); $img = [System.Drawing.Image]::FromStream($ms)

@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<title>Beeldbank Van Uitert</title>
+<style>
+:root{--ink:#231f20;--grey:#616265;--grey2:#9a9a9c;--line:#e3e1dc;--paper:#f6f5f2;--red:#e31d1a;--red2:#bd1d1b}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font:15px/1.45 "Segoe UI",Arial,sans-serif;color:var(--ink);background:#fff;display:flex;flex-direction:column}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;border:1px solid var(--line);background:#fff;border-radius:3px;padding:7px 12px}
+button:hover{border-color:var(--grey2)}
+button.rood{background:var(--red);border-color:var(--red);color:#fff;font-weight:600}
+button.rood:hover{background:var(--red2)}
+button.rood:disabled{background:var(--grey2);border-color:var(--grey2);cursor:default}
+button.link{border:0;background:none;padding:0;color:var(--grey);text-decoration:underline}
+header{display:flex;align-items:center;gap:18px;padding:12px 20px;border-bottom:1px solid var(--line)}
+.logo{font-size:17px;white-space:nowrap}.logo span{color:var(--red)}
+#q{flex:1;min-width:160px;padding:9px 12px;border:1px solid var(--grey2);border-radius:3px;font-size:16px}
+#q:focus{outline:2px solid var(--red);outline-offset:-1px}
+nav{display:flex}nav button{border-radius:0;margin-left:-1px}nav button.on{background:var(--ink);border-color:var(--ink);color:#fff}
+#stand{color:var(--grey);font-size:13px;white-space:nowrap}
+#doel{display:flex;align-items:center;gap:14px;padding:8px 20px;background:var(--ink);color:#fff}
+#doel img{height:40px;width:54px;object-fit:cover;border-radius:2px}
+#doel button{background:none;color:#fff;border-color:#777;padding:4px 10px}
+#doel span{flex:1}
+main{flex:1;display:flex;min-height:0}
+#links{width:220px;flex:none;overflow:auto;padding:14px 16px;border-right:1px solid var(--line);background:var(--paper);font-size:14px}
+#links h4{margin:16px 0 6px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--grey)}
+#links h4:first-child{margin-top:0}
+#links label{display:block;margin:3px 0}
+.kies a{display:flex;justify-content:space-between;gap:8px;padding:3px 6px;margin:0 -6px;border-radius:3px;cursor:pointer}
+.kies a:hover{background:#fff}.kies a.on{background:var(--ink);color:#fff}.kies a i{font-style:normal;color:var(--grey2)}
+#midden{flex:1;overflow:auto;padding:14px 20px 80px}
+#kop{color:var(--grey);margin-bottom:6px}
+#rooster h3{margin:18px 0 8px;font-size:14px;border-bottom:1px solid var(--line);padding-bottom:4px}
+#rooster h3 span{color:var(--grey2);font-weight:400;margin-left:6px}
+.rij{display:flex;flex-wrap:wrap;gap:6px}
+.f{position:relative;margin:0;height:132px;background:var(--paper);cursor:pointer;border-radius:2px;overflow:hidden;outline:0 solid var(--red)}
+.f img{height:132px;width:auto;display:block}
+.f:hover{outline-width:2px}.f.on{outline-width:3px}
+.f .b{position:absolute;left:4px;bottom:4px;display:flex;gap:3px}
+.f .b i{font:600 10px/1 "Segoe UI",sans-serif;font-style:normal;background:rgba(35,31,32,.8);color:#fff;padding:3px 5px;border-radius:2px}
+.f .b i.w{background:var(--red)}
+.f input{position:absolute;top:5px;left:5px;width:17px;height:17px;opacity:0;accent-color:var(--red)}
+.f:hover input,.f input:checked{opacity:1}
+#meer{margin:20px 0}
+#detail{width:44%;min-width:400px;max-width:720px;flex:none;overflow:auto;border-left:1px solid var(--line);padding:14px 18px 60px;position:relative}
+#detail h2{font-size:16px;margin:16px 0 2px;word-break:break-all}
+#detail .pad{color:var(--grey);font-size:13px;margin:0 0 4px;word-break:break-word}
+#sluit{position:absolute;top:8px;right:10px;border:0;font-size:22px;line-height:1;padding:2px 8px;z-index:3;background:rgba(255,255,255,.8)}
+#pv{position:relative;height:400px;background:var(--paper);overflow:hidden;border:1px solid var(--line)}
+#pv iframe{position:absolute;left:0;top:0;border:0;transform-origin:0 0;background:#fff;pointer-events:none}
+#pv>img{width:100%;height:100%;object-fit:contain}
+#pv .laad{position:absolute;inset:auto 0 0 0;padding:4px 8px;font-size:12px;background:rgba(35,31,32,.75);color:#fff}
+.knoppen{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;margin:10px 0}
+.knoppen .seg button{border-radius:0;margin-left:-1px;padding:4px 10px}.knoppen .seg button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.let{background:#fdeceb;border-left:3px solid var(--red);padding:6px 10px;margin:8px 0;font-size:14px}
+.ok{background:#eef5ea;border-left:3px solid #4d8a2f;padding:6px 10px;margin:8px 0;font-size:14px}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}
+.chips i{font-style:normal;font-size:12px;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:2px 9px;cursor:pointer}
+.chips i.e{background:#fff;border-color:var(--red);color:var(--red2)}
+#ek{width:100%;padding:7px 10px;border:1px solid var(--grey2);border-radius:3px;margin-top:4px}
+#v-site{display:block;overflow:auto;padding:14px 20px 60px}
+#v-site h3{margin:22px 0 8px;font-size:15px;border-bottom:1px solid var(--line);padding-bottom:4px}
+#v-site h3 a{font-weight:400;font-size:13px;color:var(--grey);margin-left:10px}
+.plekken{display:flex;flex-wrap:wrap;gap:12px}
+.plek{width:210px;border:1px solid var(--line);border-radius:3px;cursor:pointer;overflow:hidden}
+.plek:hover{border-color:var(--red)}
+.plek img{width:100%;height:140px;object-fit:cover;display:block;background:var(--paper)}
+.plek div{padding:7px 10px 9px}.plek b{display:block;font-size:14px}.plek small{color:var(--grey);display:block;font-size:12px}
+#balk{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 14px;border-radius:4px;display:flex;gap:10px;align-items:center;box-shadow:0 6px 24px rgba(0,0,0,.25)}
+#balk input{padding:6px 9px;border:0;border-radius:3px;width:220px;color:var(--ink)}
+#balk button{padding:5px 10px}
+#melding{position:fixed;right:18px;bottom:18px;background:var(--ink);color:#fff;padding:10px 14px;border-radius:4px;max-width:420px;display:none}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<header>
+  <b class="logo">Beeldbank <span>Van Uitert</span></b>
+  <input id="q" type="search" placeholder="Zoek op kenmerk, bijvoorbeeld: robot palletiser, krat, Abbott" autofocus>
+  <nav><button data-v="bank" class="on">Beeldbank</button><button data-v="site">Plekken op de site</button></nav>
+  <span id="stand"></span><button id="lees" class="link">Opnieuw inlezen</button>
+</header>
+<div id="doel" hidden></div>
+<main id="v-bank">
+  <aside id="links"></aside>
+  <section id="midden"><div id="kop"></div><div id="rooster"></div><button id="meer" hidden>Toon meer</button></section>
+  <aside id="detail" hidden></aside>
+</main>
+<main id="v-site" hidden></main>
+<div id="balk" hidden></div>
+<div id="melding"></div>
+<script>
+const $ = s => document.querySelector(s);
+const esc = t => String(t).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const BS = String.fromCharCode(92);
+const norm = t => String(t).toLowerCase().normalize('NFD').replace(/\p{M}/gu, '').replace(/[^a-z0-9]+/g, ' ').trim();
+const getal = n => n.toLocaleString('nl-NL');
+const S = { fotos: [], eigen: {}, plekken: [], q: '', bron: '', groep: '', soort: {o: true, b: true, d: true}, scherp: true,
+            plek: null, foto: null, sel: new Set(), toon: 300, tel: false, filter: true, echt: false, versie: 0, laatste: null, zicht: [] };
+const SOORT = {o: 'origineel', b: 'bewerkt met filter', d: '3D of render'};
+// Zoekwoorden die bij een map horen, zodat Nederlands en Engels allebei werken
+const SYN = [[/depalletiser/, 'depalletizer ontstapelaar afstapelaar depal'], [/(^| )palletiser/, 'palletizer stapelaar palletiseren palletiseerrobot'],
+  [/packer/, 'inpakker inpakrobot inpakken packing'], [/capper/, 'doppen dop sluiter capping'], [/droger/, 'dryer drogen productdroger'],
+  [/rinser/, 'spoeler spoelen rinsing aircleaner'], [/pasteur/, 'pasteuriser pasteurizer tunnel'], [/transport|banen|baan/, 'conveyor conveyors transportband'],
+  [/buffer/, 'accumulatie buffering accumulation'], [/pallettransport|pallet (ketting|mat|rollen)/, 'palletbaan palletbanen'], [/krat/, 'crate crates'],
+  [/dozen/, 'doos case cases'], [/fles/, 'bottle bottles'], [/blik/, 'can cans'], [/fust|vaten/, 'keg kegs vat'], [/(^| )pot/, 'jar jars'],
+  [/grijper/, 'gripper'], [/bedrijf|pand/, 'gebouw werkplaats building workshop']];
+
+async function api(pad, body) {
+  const r = await fetch('/api/' + pad, body ? {method: 'POST', headers: {'X-Fotokiezer': '1', 'Content-Type': 'application/json'}, body: JSON.stringify(body)} : {});
+  const j = await r.json(); if (j.fout) throw new Error(j.fout); return j;
+}
+function meld(t, ms) { const m = $('#melding'); m.textContent = t; m.style.display = 'block'; clearTimeout(meld.t); meld.t = setTimeout(() => m.style.display = 'none', ms || 5000); }
+
+function maak(r) {
+  const d = r[0].split(BS), f = {rel: r[0], w: r[1], h: r[2], len: r[3], datum: r[4], naam: d[d.length - 1]};
+  f.bron = /Projecten/.test(d[0]) ? 'Projecten' : /Producten/.test(d[0]) ? 'Producten' : 'Bedrijf';
+  const mappen = d.slice(1, -1);
+  f.groep = (mappen[0] || 'Losse foto\'s').replace(/^\d+\.\s*/, '');
+  f.soort = mappen.some(m => /^bewerkt/i.test(m)) ? 'b' : mappen.some(m => /^(3d|render)/i.test(m)) ? 'd' : 'o';
+  f.sub = mappen.slice(1).filter(m => !/^bewerkt/i.test(m));
+  f.sleutel = f.bron + '|' + f.groep;
+  woorden(f); return f;
+}
+function woorden(f) {
+  let t = norm(f.rel.replace(/\.[a-z]+$/i, ''));
+  for (const [re, extra] of SYN) if (re.test(t)) t += ' ' + extra;
+  t += ' ' + norm(SOORT[f.soort]) + ' ' + (f.h > f.w ? 'staand' : 'liggend') + ' ' + norm(S.eigen[f.rel] || '');
+  f.woorden = [...new Set(t.split(' '))];
+}
+function past(f, tokens) { return tokens.every(x => f.woorden.some(w => w.startsWith(x))); }
+function filter(zonderGroep) {
+  const tokens = norm(S.q).split(' ').filter(Boolean);
+  return S.fotos.filter(f => (!S.bron || f.bron === S.bron) && (zonderGroep || !S.groep || f.sleutel === S.groep) && S.soort[f.soort] && (!S.scherp || f.w >= 1000) && past(f, tokens));
+}
+
+function tekenLinks() {
+  const alle = filter(true), per = new Map();
+  for (const f of alle) per.set(f.sleutel, (per.get(f.sleutel) || 0) + 1);
+  const bron = ['', 'Producten', 'Projecten', 'Bedrijf'].map(b => `<a data-bron="${b}" class="${S.bron === b ? 'on' : ''}">${b || 'Alles'}</a>`).join('');
+  const soort = Object.keys(SOORT).map(k => `<label><input type="checkbox" data-soort="${k}" ${S.soort[k] ? 'checked' : ''}> ${SOORT[k][0].toUpperCase() + SOORT[k].slice(1)}</label>`).join('');
+  let mappen = `<a data-groep="" class="${S.groep ? '' : 'on'}">Alle mappen <i>${getal(alle.length)}</i></a>`;
+  for (const [k, n] of per) mappen += `<a data-groep="${esc(k)}" class="${S.groep === k ? 'on' : ''}" title="${esc(k.replace('|', ': '))}">${esc(k.split('|')[1])} <i>${n}</i></a>`;
+  $('#links').innerHTML = `<h4>Bron</h4><div class="kies">${bron}</div><h4>Soort</h4>${soort}
+    <h4>Kwaliteit</h4><label><input type="checkbox" id="scherp" ${S.scherp ? 'checked' : ''}> Alleen scherp genoeg voor de site (vanaf 1.000 px breed)</label>
+    <h4>Mappen</h4><div class="kies">${mappen}</div>`;
+}
+function kaart(f, i) {
+  const br = Math.round(132 * f.w / f.h);
+  const b = (f.soort === 'b' ? '<i>bewerkt</i>' : f.soort === 'd' ? '<i>3D</i>' : '') + (f.w < 1000 ? '<i class="w">klein</i>' : '') + (S.eigen[f.rel] ? '<i>' + esc(S.eigen[f.rel]) + '</i>' : '');
+  return `<figure class="f${S.foto === f ? ' on' : ''}" data-i="${i}" title="${esc(f.rel)}&#10;${f.w} x ${f.h} px"><img loading="lazy" width="${br}" height="132" src="/api/thumb?p=${encodeURIComponent(f.rel)}" alt=""><input type="checkbox" ${S.sel.has(f.rel) ? 'checked' : ''}><div class="b">${b}</div></figure>`;
+}
+function teken() {
+  tekenLinks();
+  const z = S.zicht = filter(false); let h = '', vorige = null, open = false;
+  const telling = new Map(); for (const f of z) telling.set(f.sleutel, (telling.get(f.sleutel) || 0) + 1);
+  z.slice(0, S.toon).forEach((f, i) => {
+    if (f.sleutel !== vorige) { if (open) h += '</div>'; h += `<h3>${esc(f.bron)} · ${esc(f.groep)}<span>${telling.get(f.sleutel)}</span></h3><div class="rij">`; open = true; vorige = f.sleutel; }
+    h += kaart(f, i);
+  });
+  if (open) h += '</div>';
+  $('#rooster').innerHTML = h;
+  $('#kop').textContent = z.length ? getal(z.length) + (z.length === 1 ? ' foto' : ' foto\'s') : (S.fotos.length ? 'Geen foto\'s gevonden. Zoek op een ander woord of zet links een filter uit.' : '');
+  $('#meer').hidden = z.length <= S.toon;
+  tekenBalk();
+}
+
+const vbUrl = f => '/api/voorbeeld?p=' + encodeURIComponent(f.rel) + '&f=' + (S.filter ? 1 : 0);
+const plekNaam = p => p.titel + ' · ' + p.label;
+const zelfde = p => S.plekken.filter(x => x.naam === p.naam).length - 1;
+
+function tekenDoel() {
+  const d = $('#doel'), p = S.plek; d.hidden = !p; if (!p) return;
+  d.innerHTML = `<img src="/assets/img/${esc(p.klein)}?v=${S.versie}" alt=""><span>Je kiest een foto voor: <b>${esc(plekNaam(p))}</b></span><button id="andere">Andere plek</button><button id="klaar">Klaar</button>`;
+}
+function tekenDetail() {
+  const d = $('#detail'), f = S.foto, p = S.plek;
+  d.hidden = !f && !p; if (d.hidden) return;
+  let h = '<button id="sluit" title="Sluiten">×</button><div id="pv"></div><div class="knoppen">';
+  if (p) h += `<span class="seg"><button data-tel="0" class="${S.tel ? '' : 'on'}">Laptop</button><button data-tel="1" class="${S.tel ? 'on' : ''}">Telefoon</button></span>`;
+  if (f) h += `<label><input type="checkbox" id="filter" ${S.filter ? 'checked' : ''}> Van Uitert-filter</label>`;
+  h += '</div>';
+  if (f) {
+    if (f.soort === 'b' && S.filter) h += '<div class="let">Deze foto is al bewerkt. Met het filter erbij krijgt hij het dubbel.</div>';
+    if (f.w < 800) h += `<div class="let">Te klein voor de site: ${f.w} px breed. Minimaal 800 px, liever 1.400 px.</div>`;
+    else if (f.w < 1400) h += `<div class="let">Aan de kleine kant: ${f.w} px breed. Op een groot scherm wordt hij minder scherp.</div>`;
+    h += '<div class="knoppen">';
+    if (p) { const n = zelfde(p);
+      h += `<button class="rood" id="zet" ${f.w < 800 ? 'disabled' : ''}>Zet op deze plek</button>` + (n > 0 ? `<label><input type="checkbox" id="overal"> Ook op de ${n} andere ${n === 1 ? 'plek' : 'plekken'} met dezelfde foto</label>` : '');
+    } else h += '<button class="rood" id="naarplek">Kies een plek op de site</button>';
+    h += '</div>';
+  } else h += '<p class="pad">Dit staat er nu. Klik links op een foto om te zien hoe die hier staat.</p>';
+  h += '<div id="na"></div>';
+  if (f) {
+    const chips = [f.bron, f.groep, ...f.sub, SOORT[f.soort], f.h > f.w ? 'staand' : 'liggend'].map(c => `<i>${esc(c)}</i>`).join('');
+    h += `<h2>${esc(f.naam)}</h2><p class="pad">${esc(f.rel.split(BS).slice(0, -1).join(' / '))}</p>
+      <p class="pad">${getal(f.w)} x ${getal(f.h)} px · ${(f.len / 1048576).toFixed(1).replace('.', ',')} MB · ${f.datum.split('-').reverse().join('-')}</p>
+      <div class="chips">${chips}</div><label>Eigen kenmerken, met een komma ertussen<input id="ek" value="${esc(S.eigen[f.rel] || '')}" placeholder="bijvoorbeeld: krat, glas, mooiste foto"></label>`;
+  }
+  d.innerHTML = h; tekenNa(); toonVoorbeeld();
+}
+function tekenNa() {
+  const n = $('#na'), l = S.laatste; if (!n) return;
+  n.innerHTML = l && S.plek && l.bestand === S.plek.bestand && l.regel === S.plek.regel && S.echt
+    ? `<div class="ok">Geplaatst. Zo staat hij nu op de pagina. <button class="link" id="terug">Ongedaan maken</button> · <a href="/${esc(S.plek.pagina)}" target="_blank">Open de pagina</a></div>` : '';
+}
+let beurt = 0;
+async function toonVoorbeeld() {
+  const pv = $('#pv'), f = S.foto, p = S.plek, mijn = ++beurt; if (!pv) return;
+  if (!p) {   // alleen de foto, zoals hij op de site zou komen
+    pv.innerHTML = `<img src="/api/thumb?p=${encodeURIComponent(f.rel)}" alt=""><div class="laad">Voorbeeld maken…</div>`;
+    const groot = new Image(); groot.onload = () => { if (mijn === beurt) pv.innerHTML = `<img src="${groot.src}" alt="">`; }; groot.src = vbUrl(f); return;
+  }
+  let fr = pv.querySelector('iframe');
+  if (!fr) { pv.innerHTML = '<iframe></iframe><div class="laad">Pagina laden…</div>'; fr = pv.querySelector('iframe'); }
+  const laad = pv.querySelector('.laad'), W = S.tel ? 390 : 1280, H = S.tel ? 760 : 820;
+  fr.style.width = W + 'px'; fr.style.height = H + 'px';
+  const sleutel = p.pagina + '|' + p.bestand + p.regel + '|' + W + '|' + S.versie;
+  if (fr.dataset.s !== sleutel) { fr.dataset.s = sleutel; await new Promise(ok => { fr.onload = ok; fr.src = '/' + p.pagina + '?v=' + Date.now(); }); }
+  if (mijn !== beurt) return;
+  const doc = fr.contentDocument; doc.documentElement.style.scrollBehavior = 'auto';
+  let img = doc.querySelector('img[data-fk]');
+  if (!img) { const l = [...doc.querySelectorAll('img')].filter(i => (i.getAttribute('src') || '').endsWith('assets/img/' + p.naam)); img = l[p.nr] || l[0];
+    if (!img) { if (laad) laad.textContent = 'Deze plek is op de pagina niet gevonden.'; return; }
+    img.dataset.fk = '1'; img.dataset.src0 = img.getAttribute('src'); img.dataset.set0 = img.getAttribute('srcset') || ''; img.dataset.sizes0 = img.getAttribute('sizes') || ''; }
+  img.loading = 'eager';
+  if (f && !S.echt) { if (laad) { laad.hidden = false; laad.textContent = 'Voorbeeld maken…'; } img.removeAttribute('srcset'); img.removeAttribute('sizes'); img.src = vbUrl(f); }
+  else if (img.getAttribute('src') !== img.dataset.src0) { img.src = img.dataset.src0; if (img.dataset.set0) { img.setAttribute('srcset', img.dataset.set0); img.setAttribute('sizes', img.dataset.sizes0); } }
+  try { await img.decode(); } catch (e) {}
+  if (mijn !== beurt) return;
+  const plaats = () => {
+    img.scrollIntoView({block: 'center'});
+    const r = img.getBoundingClientRect(), bw = pv.clientWidth, bh = pv.clientHeight; if (!r.width || !r.height) return;
+    const s = Math.min(1, bw * .9 / r.width, bh * .9 / r.height);
+    fr.style.transform = `translate(${bw / 2 - (r.left + r.width / 2) * s}px,${bh / 2 - (r.top + r.height / 2) * s}px) scale(${s})`;
+  };
+  plaats(); setTimeout(() => { if (mijn === beurt) plaats(); }, 450);
+  if (laad) laad.hidden = true;
+}
+
+async function zet() {
+  const p = S.plek, f = S.foto, overal = !!($('#overal') && $('#overal').checked), knop = $('#zet');
+  knop.disabled = true; knop.textContent = 'Bezig…';
+  try {
+    const r = await api('kies', {bestand: p.bestand, regel: p.regel, oud: p.naam, rel: f.rel, filter: S.filter, overal});
+    S.laatste = {bestand: p.bestand, regel: p.regel, oud: p.naam, nieuw: r.naam, overal};
+    await naPlaatsen(p); meld('Geplaatst op ' + plekNaam(p) + '.');
+  } catch (e) { meld(e.message, 9000); knop.disabled = false; knop.textContent = 'Zet op deze plek'; }
+}
+async function terug() {
+  const l = S.laatste, p = S.plek;
+  try { await api('kies', {bestand: l.bestand, regel: l.regel, oud: l.nieuw, terug: l.oud, overal: l.overal}); S.laatste = null; await naPlaatsen(p); S.echt = false; S.foto = null; teken(); tekenDetail(); meld('De vorige foto staat er weer.'); }
+  catch (e) { meld(e.message, 9000); }
+}
+async function naPlaatsen(p) {
+  const d = await api('data'); S.plekken = d.plekken; S.versie++;
+  S.plek = S.plekken.find(x => x.bestand === p.bestand && x.regel === p.regel) || null; S.echt = true;
+  tekenDoel(); tekenDetail(); if (!$('#v-site').hidden) tekenSite();
+}
+
+function tekenSite() {
+  let h = S.foto ? `<p>Kies de plek voor <b>${esc(S.foto.naam)}</b>.</p>` : '<p>Klik op een plek om er een andere foto voor te kiezen.</p>', vorige = null, open = false;
+  S.plekken.forEach((p, i) => {
+    const kop = p.bestand.startsWith('src/partials') ? 'Projectkaarten' : p.titel;
+    if (kop !== vorige) { if (open) h += '</div>'; h += `<h3>${esc(kop)}<a href="/${esc(p.pagina)}" target="_blank">open de pagina</a></h3><div class="plekken">`; open = true; vorige = kop; }
+    const n = zelfde(p);
+    h += `<div class="plek" data-p="${i}"><img loading="lazy" src="/assets/img/${esc(p.klein)}?v=${S.versie}" alt=""><div><b>${esc(p.label)}</b>
+      <small>${n > 0 ? 'Dezelfde foto staat op ' + n + (n === 1 ? ' andere plek' : ' andere plekken') : 'Alleen hier'}</small>${p.bron ? `<small title="${esc(p.bron)}">Bron: ${esc(p.bron.split(BS).slice(-2).join(' / '))}</small>` : ''}</div></div>`;
+  });
+  $('#v-site').innerHTML = h + (open ? '</div>' : '');
+}
+function scherm(v) {
+  $('#v-bank').hidden = v !== 'bank'; $('#v-site').hidden = v !== 'site';
+  document.querySelectorAll('nav button').forEach(b => b.classList.toggle('on', b.dataset.v === v));
+  if (v === 'site') tekenSite(); else tekenDetail();
+}
+function tekenBalk() {
+  const b = $('#balk'), n = S.sel.size; b.hidden = !n; if (!n) return;
+  if (!b.dataset.n) b.innerHTML = '<span></span><input id="bk" placeholder="kenmerk, bijvoorbeeld: krat"><button id="bkzet">Toevoegen</button><button id="bkwis">Selectie wissen</button>';
+  b.dataset.n = n; b.querySelector('span').textContent = n + (n === 1 ? ' foto' : ' foto\'s') + ' aangevinkt. Kenmerk erbij:';
+}
+async function kenmerk(rels, tekst, erbij) {
+  try { const r = await api('kenmerk', {rels, tekst, erbij: !!erbij}); S.eigen = r.eigen; S.fotos.forEach(f => { if (rels.includes(f.rel)) woorden(f); }); return true; }
+  catch (e) { meld(e.message, 9000); return false; }
+}
+
+$('#q').addEventListener('input', e => { S.q = e.target.value; S.toon = 300; teken(); $('#midden').scrollTop = 0; });
+document.querySelector('nav').addEventListener('click', e => { if (e.target.dataset.v) scherm(e.target.dataset.v); });
+$('#links').addEventListener('click', e => { const a = e.target.closest('a'); if (!a) return;
+  if ('bron' in a.dataset) { S.bron = a.dataset.bron; S.groep = ''; } else S.groep = a.dataset.groep; S.toon = 300; teken(); $('#midden').scrollTop = 0; });
+$('#links').addEventListener('change', e => { if (e.target.dataset.soort) S.soort[e.target.dataset.soort] = e.target.checked; else if (e.target.id === 'scherp') S.scherp = e.target.checked; S.toon = 300; teken(); });
+$('#rooster').addEventListener('click', e => { const k = e.target.closest('.f'); if (!k) return; const f = S.zicht[+k.dataset.i];
+  if (e.target.tagName === 'INPUT') { e.target.checked ? S.sel.add(f.rel) : S.sel.delete(f.rel); tekenBalk(); return; }
+  document.querySelectorAll('.f.on').forEach(x => x.classList.remove('on')); k.classList.add('on');
+  S.foto = f; S.echt = false; S.filter = f.soort === 'o'; tekenDetail(); });
+$('#meer').addEventListener('click', () => { S.toon += 300; teken(); });
+$('#detail').addEventListener('click', e => { const t = e.target;
+  if (t.id === 'sluit') { S.foto = null; S.echt = false; document.querySelectorAll('.f.on').forEach(x => x.classList.remove('on')); if (S.plek) tekenDetail(); else $('#detail').hidden = true; }
+  else if (t.dataset.tel) { S.tel = t.dataset.tel === '1'; tekenDetail(); }
+  else if (t.id === 'zet') zet(); else if (t.id === 'terug') terug(); else if (t.id === 'naarplek') scherm('site');
+  else if (t.tagName === 'I' && t.parentNode.className === 'chips') { $('#q').value = S.q = t.textContent; S.groep = ''; S.toon = 300; teken(); } });
+$('#detail').addEventListener('change', async e => {
+  if (e.target.id === 'filter') { S.filter = e.target.checked; S.echt = false; tekenDetail(); }
+  else if (e.target.id === 'ek' && S.foto) { if (await kenmerk([S.foto.rel], e.target.value, false)) meld('Kenmerken bewaard.', 2500); } });
+$('#v-site').addEventListener('click', e => { const k = e.target.closest('.plek'); if (!k) return; S.plek = S.plekken[+k.dataset.p]; S.echt = false; tekenDoel(); scherm('bank'); });
+$('#doel').addEventListener('click', e => { if (e.target.id === 'andere') scherm('site'); else if (e.target.id === 'klaar') { S.plek = null; S.echt = false; tekenDoel(); tekenDetail(); } });
+$('#balk').addEventListener('click', async e => {
+  if (e.target.id === 'bkwis') { S.sel.clear(); teken(); }
+  else if (e.target.id === 'bkzet') { const t = $('#bk').value.trim(); if (!t) return; const n = S.sel.size; if (await kenmerk([...S.sel], t, true)) { S.sel.clear(); $('#bk').value = ''; teken(); meld(n + (n === 1 ? ' foto heeft' : ' foto\'s hebben') + ' het kenmerk "' + t + '" gekregen.'); } } });
+$('#balk').addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.id === 'bk') $('#bkzet').click(); });
+$('#lees').addEventListener('click', () => inlezen());
+
+async function inlezen() {
+  $('#lees').hidden = true;
+  try { for (;;) { const r = await api('inlezen', {}); $('#stand').textContent = 'Beeldbank inlezen: ' + getal(r.pos) + ' van ' + getal(r.totaal); if (r.klaar) break; } await laad(); }
+  catch (e) { $('#stand').textContent = ''; meld(e.message, 12000); }
+  $('#lees').hidden = false;
+}
+async function laad() {
+  const d = await api('data'); S.eigen = d.eigen || {}; S.plekken = d.plekken;
+  const volg = {Producten: 0, Projecten: 1, Bedrijf: 2}, so = {o: 0, b: 1, d: 2};
+  S.fotos = d.fotos.map(maak).sort((a, b) => volg[a.bron] - volg[b.bron] || a.groep.localeCompare(b.groep, 'nl', {numeric: true}) || so[a.soort] - so[b.soort] || a.naam.localeCompare(b.naam, 'nl', {numeric: true}));
+  $('#stand').textContent = getal(S.fotos.length) + ' foto\'s';
+  if (!d.bereikbaar) meld('De beeldbank op L: is nu niet bereikbaar. Zoeken kan, foto\'s tonen en plaatsen niet.', 12000);
+  teken(); return d;
+}
+laad().then(d => { if (!S.fotos.length && d.bereikbaar) inlezen(); }).catch(e => meld(e.message, 12000));
+</script>
+</body>
+</html>
