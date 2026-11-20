@@ -60,6 +60,11 @@ $script:eigen = New-Object 'System.Collections.Generic.Dictionary[string,object]
 foreach ($r in (Regels $kenPad)) { $v = $r.Split("`t"); if ($v.Length -eq 2 -and $v[1]) { $script:eigen[$v[0]] = $v[1] } }
 function KenmerkBewaar { $uit = New-Object 'System.Collections.Generic.List[string]'; foreach ($k in $script:eigen.Keys) { $uit.Add($k + "`t" + $script:eigen[$k]) }; Schrijf $kenPad $uit }
 
+# ---- foto's en mappen die we niet gebruiken: alleen verborgen in de kiezer, de beeldbank zelf blijft zoals hij is ----
+$wegPad = Join-Path $werk 'niet-gebruiken.tsv'
+$script:weg = [System.Collections.Generic.HashSet[string]]::new()
+foreach ($r in (Regels $wegPad)) { if ($r) { [void]$script:weg.Add($r) } }
+
 # ---- plekken op de site: elke foto in src/pages en src/partials ----
 $geenPlek = 'job-van-uitert', 'ad-van-den-berg', 'maaike'
 function SrcBestanden { @([IO.Directory]::GetFiles((Join-Path $root 'src\pages'), '*.html')) + @([IO.Directory]::GetFiles((Join-Path $root 'src\partials'), '*.html')) }
@@ -208,7 +213,7 @@ function Data {
   $pl = Plekken
   $f = New-Object 'System.Collections.Generic.List[object]'
   foreach ($k in $script:fotos.Keys) { $v = $script:fotos[$k]; if ($v[0] -gt 0) { $f.Add([object[]]@([string]$k, [int]$v[0], [int]$v[1], [long]$v[3], ([DateTime][long]$v[4]).ToString('yyyy-MM-dd'))) } }
-  return @{ bank = $Bank; bereikbaar = [bool](Test-Path $Bank); fotos = $f.PSObject.BaseObject; eigen = $script:eigen.PSObject.BaseObject; plekken = $pl.PSObject.BaseObject }
+  return @{ bank = $Bank; bereikbaar = [bool](Test-Path $Bank); fotos = $f.PSObject.BaseObject; eigen = $script:eigen.PSObject.BaseObject; weg = [string[]]@($script:weg); plekken = $pl.PSObject.BaseObject }
 }
 
 $l = New-Object System.Net.HttpListener; $l.Prefixes.Add("http://localhost:$Port/")
@@ -240,6 +245,14 @@ while ($l.IsListening) {
         } elseif ($tekst) { $script:eigen[$rel] = $tekst } else { [void]$script:eigen.Remove($rel) }
       }
       KenmerkBewaar; Json $c @{ ok = $true; eigen = $script:eigen.PSObject.BaseObject }
+    }
+    elseif ($p -eq 'api/verberg' -and $post) {
+      $d = Invoer $c
+      foreach ($x in $d['items']) {
+        $x = [string]$x; if (-not $x -or $x.Contains("`t") -or $x.Contains("`n")) { continue }
+        if ($d['aan']) { [void]$script:weg.Add($x) } else { [void]$script:weg.Remove($x) }
+      }
+      Schrijf $wegPad @($script:weg); Json $c @{ ok = $true; weg = [string[]]@($script:weg) }
     }
     elseif ($p -like 'api/*') { Json $c @{ fout = 'Onbekende vraag.' } 404 }
     else {

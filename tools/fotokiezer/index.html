@@ -44,6 +44,11 @@ main{flex:1;display:flex;min-height:0}
 .f .b{position:absolute;left:4px;bottom:4px;display:flex;gap:3px}
 .f .b i{font:600 10px/1 "Segoe UI",sans-serif;font-style:normal;background:rgba(35,31,32,.8);color:#fff;padding:3px 5px;border-radius:2px}
 .f .b i.w{background:var(--red)}
+.f.weg img{opacity:.3}
+.f .nx{position:absolute;top:4px;right:4px;padding:0 7px;height:22px;line-height:20px;font-size:14px;border:0;border-radius:2px;background:rgba(35,31,32,.8);color:#fff;opacity:0}
+.f:hover .nx,.f.weg .nx{opacity:1}.f .nx:hover{background:var(--red)}
+#rooster h3 a.mapweg{float:right;font-weight:400;font-size:12px;color:var(--grey);text-decoration:underline;cursor:pointer}
+#melding button{margin-left:8px;padding:3px 9px;background:none;color:#fff;border-color:#888}
 .f input{position:absolute;top:5px;left:5px;width:17px;height:17px;opacity:0;accent-color:var(--red)}
 .f:hover input,.f input:checked{opacity:1}
 #meer{margin:20px 0}
@@ -101,7 +106,7 @@ const BS = String.fromCharCode(92);
 const norm = t => String(t).toLowerCase().normalize('NFD').replace(/\p{M}/gu, '').replace(/[^a-z0-9]+/g, ' ').trim();
 const getal = n => n.toLocaleString('nl-NL');
 const S = { fotos: [], eigen: {}, plekken: [], q: '', bron: '', groep: '', soort: {o: true, b: true, d: true}, scherp: true,
-            plek: null, foto: null, sel: new Set(), toon: 300, tel: false, filter: true, echt: false, versie: 0, laatste: null, zicht: [] };
+            weg: new Set(), toonWeg: false, plek: null, foto: null, sel: new Set(), toon: 300, tel: false, filter: true, echt: false, versie: 0, laatste: null, zicht: [] };
 const SOORT = {o: 'origineel', b: 'bewerkt met filter', d: '3D of render'};
 // Zoekwoorden die bij een map horen, zodat Nederlands en Engels allebei werken
 const SYN = [[/depalletiser/, 'depalletizer ontstapelaar afstapelaar depal'], [/(^| )palletiser/, 'palletizer stapelaar palletiseren palletiseerrobot'],
@@ -115,7 +120,23 @@ async function api(pad, body) {
   const r = await fetch('/api/' + pad, body ? {method: 'POST', headers: {'X-Fotokiezer': '1', 'Content-Type': 'application/json'}, body: JSON.stringify(body)} : {});
   const j = await r.json(); if (j.fout) throw new Error(j.fout); return j;
 }
-function meld(t, ms) { const m = $('#melding'); m.textContent = t; m.style.display = 'block'; clearTimeout(meld.t); meld.t = setTimeout(() => m.style.display = 'none', ms || 5000); }
+function meld(t, ms, terug) {
+  const m = $('#melding'); m.textContent = t; m.style.display = 'block';
+  if (terug) { const b = document.createElement('button'); b.textContent = 'Ongedaan maken'; b.onclick = () => { m.style.display = 'none'; terug(); }; m.append(' ', b); }
+  clearTimeout(meld.t); meld.t = setTimeout(() => m.style.display = 'none', ms || 5000);
+}
+// "Niet gebruiken" verbergt een foto of map alleen in deze kiezer. Op de L-schijf verandert niets.
+async function verberg(items, aan, wat, stil) {
+  const toon = () => { if (S.foto && isWeg(S.foto) && !S.toonWeg) { S.foto = null; tekenDetail(); } teken(); stand(); };
+  items.forEach(x => aan ? S.weg.add(x) : S.weg.delete(x)); toon();   // meteen in beeld, bewaren volgt
+  if (!stil) meld(wat + (aan ? ' verborgen. Op de L-schijf verandert niets.' : ' staat er weer tussen.'), 8000, () => verberg(items, !aan, wat, true));
+  try { await api('verberg', {items, aan}); }
+  catch (e) { items.forEach(x => aan ? S.weg.delete(x) : S.weg.add(x)); toon(); meld('Niet bewaard: ' + e.message, 9000); }
+}
+function stand() {
+  const n = S.fotos.filter(isWeg).length;
+  $('#stand').textContent = getal(S.fotos.length - n) + ' foto\'s' + (n ? ', ' + getal(n) + ' niet in gebruik' : '');
+}
 
 function maak(r) {
   const d = r[0].split(BS), f = {rel: r[0], w: r[1], h: r[2], len: r[3], datum: r[4], naam: d[d.length - 1]};
@@ -125,10 +146,13 @@ function maak(r) {
   f.soort = mappen.some(m => /^bewerkt/i.test(m)) ? 'b' : mappen.some(m => /^(3d|render)/i.test(m)) ? 'd' : 'o';
   f.sub = mappen.slice(1).filter(m => !/^bewerkt/i.test(m));
   f.sleutel = f.bron + '|' + f.groep;
-  woorden(f); return f;
+  f.map = mappen.length ? d.slice(0, 2).join(BS) + BS : null;   // de map van de machine of het project
+  f.alle = [f.rel];                                             // dezelfde foto kan in meer mappen staan
+  return f;
 }
+const isWeg = f => S.weg.has(f.rel) || (f.map !== null && S.weg.has('map:' + f.map));
 function woorden(f) {
-  let t = norm(f.rel.replace(/\.[a-z]+$/i, ''));
+  let t = norm(f.alle.map(r => r.replace(/\.[a-z]+$/i, '')).join(' '));
   for (const [re, extra] of SYN) if (re.test(t)) t += ' ' + extra;
   t += ' ' + norm(SOORT[f.soort]) + ' ' + (f.h > f.w ? 'staand' : 'liggend') + ' ' + norm(S.eigen[f.rel] || '');
   f.woorden = [...new Set(t.split(' '))];
@@ -136,7 +160,7 @@ function woorden(f) {
 function past(f, tokens) { return tokens.every(x => f.woorden.some(w => w.startsWith(x))); }
 function filter(zonderGroep) {
   const tokens = norm(S.q).split(' ').filter(Boolean);
-  return S.fotos.filter(f => (!S.bron || f.bron === S.bron) && (zonderGroep || !S.groep || f.sleutel === S.groep) && S.soort[f.soort] && (!S.scherp || f.w >= 1000) && past(f, tokens));
+  return S.fotos.filter(f => (!S.bron || f.bron === S.bron) && (zonderGroep || !S.groep || f.sleutel === S.groep) && S.soort[f.soort] && (!S.scherp || f.w >= 1000) && (S.toonWeg || !isWeg(f)) && past(f, tokens));
 }
 
 function tekenLinks() {
@@ -148,19 +172,22 @@ function tekenLinks() {
   for (const [k, n] of per) mappen += `<a data-groep="${esc(k)}" class="${S.groep === k ? 'on' : ''}" title="${esc(k.replace('|', ': '))}">${esc(k.split('|')[1])} <i>${n}</i></a>`;
   $('#links').innerHTML = `<h4>Bron</h4><div class="kies">${bron}</div><h4>Soort</h4>${soort}
     <h4>Kwaliteit</h4><label><input type="checkbox" id="scherp" ${S.scherp ? 'checked' : ''}> Alleen scherp genoeg voor de site (vanaf 1.000 px breed)</label>
+    <h4>Niet in gebruik</h4><label><input type="checkbox" id="toonweg" ${S.toonWeg ? 'checked' : ''}> Toon ook wat we niet gebruiken</label>
     <h4>Mappen</h4><div class="kies">${mappen}</div>`;
 }
 function kaart(f, i) {
   const br = Math.round(132 * f.w / f.h);
   const b = (f.soort === 'b' ? '<i>bewerkt</i>' : f.soort === 'd' ? '<i>3D</i>' : '') + (f.w < 1000 ? '<i class="w">klein</i>' : '') + (S.eigen[f.rel] ? '<i>' + esc(S.eigen[f.rel]) + '</i>' : '');
-  return `<figure class="f${S.foto === f ? ' on' : ''}" data-i="${i}" title="${esc(f.rel)}&#10;${f.w} x ${f.h} px"><img loading="lazy" width="${br}" height="132" src="/api/thumb?p=${encodeURIComponent(f.rel)}" alt=""><input type="checkbox" ${S.sel.has(f.rel) ? 'checked' : ''}><div class="b">${b}</div></figure>`;
+  const weg = isWeg(f);
+  return `<figure class="f${S.foto === f ? ' on' : ''}${weg ? ' weg' : ''}" data-i="${i}" title="${esc(f.alle.join('\n'))}&#10;${f.w} x ${f.h} px"><img loading="lazy" width="${br}" height="132" src="/api/thumb?p=${encodeURIComponent(f.rel)}" alt=""><input type="checkbox" ${S.sel.has(f.rel) ? 'checked' : ''}><button class="nx" title="${weg ? 'Weer gebruiken' : 'Niet gebruiken'}">${weg ? 'terug' : '×'}</button><div class="b">${b}</div></figure>`;
 }
 function teken() {
   tekenLinks();
   const z = S.zicht = filter(false); let h = '', vorige = null, open = false;
   const telling = new Map(); for (const f of z) telling.set(f.sleutel, (telling.get(f.sleutel) || 0) + 1);
   z.slice(0, S.toon).forEach((f, i) => {
-    if (f.sleutel !== vorige) { if (open) h += '</div>'; h += `<h3>${esc(f.bron)} · ${esc(f.groep)}<span>${telling.get(f.sleutel)}</span></h3><div class="rij">`; open = true; vorige = f.sleutel; }
+    if (f.sleutel !== vorige) { if (open) h += '</div>'; const mw = f.map !== null && S.weg.has('map:' + f.map);
+      h += `<h3>${esc(f.bron)} · ${esc(f.groep)}<span>${telling.get(f.sleutel)}</span>${f.map !== null ? `<a class="mapweg" data-map="${esc(f.map)}" data-aan="${mw ? 0 : 1}">${mw ? 'deze map weer gebruiken' : 'deze hele map niet gebruiken'}</a>` : ''}</h3><div class="rij">`; open = true; vorige = f.sleutel; }
     h += kaart(f, i);
   });
   if (open) h += '</div>';
@@ -281,7 +308,7 @@ function scherm(v) {
 }
 function tekenBalk() {
   const b = $('#balk'), n = S.sel.size; b.hidden = !n; if (!n) return;
-  if (!b.dataset.n) b.innerHTML = '<span></span><input id="bk" placeholder="kenmerk, bijvoorbeeld: krat"><button id="bkzet">Toevoegen</button><button id="bkwis">Selectie wissen</button>';
+  if (!b.dataset.n) b.innerHTML = '<span></span><input id="bk" placeholder="kenmerk, bijvoorbeeld: krat"><button id="bkzet">Toevoegen</button><button id="bkweg">Niet gebruiken</button><button id="bkwis">Selectie wissen</button>';
   b.dataset.n = n; b.querySelector('span').textContent = n + (n === 1 ? ' foto' : ' foto\'s') + ' aangevinkt. Kenmerk erbij:';
 }
 async function kenmerk(rels, tekst, erbij) {
@@ -293,8 +320,14 @@ $('#q').addEventListener('input', e => { S.q = e.target.value; S.toon = 300; tek
 document.querySelector('nav').addEventListener('click', e => { if (e.target.dataset.v) scherm(e.target.dataset.v); });
 $('#links').addEventListener('click', e => { const a = e.target.closest('a'); if (!a) return;
   if ('bron' in a.dataset) { S.bron = a.dataset.bron; S.groep = ''; } else S.groep = a.dataset.groep; S.toon = 300; teken(); $('#midden').scrollTop = 0; });
-$('#links').addEventListener('change', e => { if (e.target.dataset.soort) S.soort[e.target.dataset.soort] = e.target.checked; else if (e.target.id === 'scherp') S.scherp = e.target.checked; S.toon = 300; teken(); });
-$('#rooster').addEventListener('click', e => { const k = e.target.closest('.f'); if (!k) return; const f = S.zicht[+k.dataset.i];
+$('#links').addEventListener('change', e => { if (e.target.dataset.soort) S.soort[e.target.dataset.soort] = e.target.checked; else if (e.target.id === 'scherp') S.scherp = e.target.checked; else if (e.target.id === 'toonweg') S.toonWeg = e.target.checked; S.toon = 300; teken(); });
+$('#rooster').addEventListener('click', e => {
+  const mw = e.target.closest('.mapweg'); if (mw) { verberg(['map:' + mw.dataset.map], mw.dataset.aan === '1', 'De map'); return; }
+  const k = e.target.closest('.f'); if (!k) return; const f = S.zicht[+k.dataset.i];
+  if (e.target.classList.contains('nx')) {
+    if (isWeg(f) && !S.weg.has(f.rel)) meld('Deze foto zit in een map die je niet gebruikt. Zet met de link boven de foto\'s de hele map terug.', 8000);
+    else verberg([f.rel], !isWeg(f), '1 foto');
+    return; }
   if (e.target.tagName === 'INPUT') { e.target.checked ? S.sel.add(f.rel) : S.sel.delete(f.rel); tekenBalk(); return; }
   document.querySelectorAll('.f.on').forEach(x => x.classList.remove('on')); k.classList.add('on');
   S.foto = f; S.echt = false; S.filter = f.soort === 'o'; tekenDetail(); });
@@ -311,6 +344,7 @@ $('#v-site').addEventListener('click', e => { const k = e.target.closest('.plek'
 $('#doel').addEventListener('click', e => { if (e.target.id === 'andere') scherm('site'); else if (e.target.id === 'klaar') { S.plek = null; S.echt = false; tekenDoel(); tekenDetail(); } });
 $('#balk').addEventListener('click', async e => {
   if (e.target.id === 'bkwis') { S.sel.clear(); teken(); }
+  else if (e.target.id === 'bkweg') { const rels = [...S.sel]; S.sel.clear(); verberg(rels, true, rels.length + (rels.length === 1 ? ' foto' : ' foto\'s')); }
   else if (e.target.id === 'bkzet') { const t = $('#bk').value.trim(); if (!t) return; const n = S.sel.size; if (await kenmerk([...S.sel], t, true)) { S.sel.clear(); $('#bk').value = ''; teken(); meld(n + (n === 1 ? ' foto heeft' : ' foto\'s hebben') + ' het kenmerk "' + t + '" gekregen.'); } } });
 $('#balk').addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.id === 'bk') $('#bkzet').click(); });
 $('#lees').addEventListener('click', () => inlezen());
@@ -324,8 +358,17 @@ async function inlezen() {
 async function laad() {
   const d = await api('data'); S.eigen = d.eigen || {}; S.plekken = d.plekken;
   const volg = {Producten: 0, Projecten: 1, Bedrijf: 2}, so = {o: 0, b: 1, d: 2};
-  S.fotos = d.fotos.map(maak).sort((a, b) => volg[a.bron] - volg[b.bron] || a.groep.localeCompare(b.groep, 'nl', {numeric: true}) || so[a.soort] - so[b.soort] || a.naam.localeCompare(b.naam, 'nl', {numeric: true}));
-  $('#stand').textContent = getal(S.fotos.length) + ' foto\'s';
+  S.weg = new Set(d.weg || []);
+  // Dezelfde foto in meer mappen (zelfde bestandsgrootte en afmeting) tonen we een keer; de mapnamen tellen allemaal mee bij het zoeken.
+  const uniek = new Map(), rang = f => (f.bron === 'Producten' ? 0 : 4) + (f.soort === 'o' ? 0 : 2) + (/archief/i.test(f.rel) ? 1 : 0);
+  for (const f of d.fotos.map(maak)) {
+    const k = f.len + '|' + f.w + '|' + f.h, g = uniek.get(k);
+    if (!g) uniek.set(k, f); else if (rang(f) < rang(g)) { f.alle = [f.rel, ...g.alle]; uniek.set(k, f); } else g.alle.push(f.rel);
+  }
+  S.dubbel = d.fotos.length - uniek.size;
+  S.fotos = [...uniek.values()]; S.fotos.forEach(woorden);
+  S.fotos.sort((a, b) => volg[a.bron] - volg[b.bron] || a.groep.localeCompare(b.groep, 'nl', {numeric: true}) || so[a.soort] - so[b.soort] || a.naam.localeCompare(b.naam, 'nl', {numeric: true}));
+  stand();
   if (!d.bereikbaar) meld('De beeldbank op L: is nu niet bereikbaar. Zoeken kan, foto\'s tonen en plaatsen niet.', 12000);
   teken(); return d;
 }
